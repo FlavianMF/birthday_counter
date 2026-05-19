@@ -1,0 +1,37 @@
+<!-- Top Navbar - Visible on Desktop, Hidden on Mobile -->
+<nav class="hidden md:block fixed top-0 left-0 right-0 z-50">
+  <div class="glass-card mx-4 mt-4 p-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
+        <span class="text-xl">🎂</span>
+      </div>
+      <h1 class="text-xl font-bold text-gradient">Birthday Counter</h1>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="flex items-center gap-4">
+      <% if logged_in? %>
+        <%= link_to events_path, class: "text-white/70 hover:text-white transition-colors" do %>
+          <span>Eventos</span>
+        <% end %>
+        
+        <%= link_to rankings_path, class: "text-white/70 hover:text-white transition-colors" do %>
+          <span>Ranking</span>
+        <% end %>
+
+        <div class="flex items-center gap-2">
+          <span class="badge badge-secondary">
+            <%= current_user_coins %> 💰
+          </span>
+          <%= button_to logout_path, method: :delete, class: "btn-secondary text-sm" do %>
+            Sair
+          <% end %>
+        </div>
+      <% else %>
+        <%= link_to "Entrar", login_path, class: "btn-secondary" %>
+        <%= link_to "Criar Conta", register_path, class: "btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</nav>

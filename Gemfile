@@ -2,8 +2,12 @@ source "https://rubygems.org"
 
 ruby "3.0.2"
 
-# Rails API
+# Rails with full stack (not API-only)
 gem "rails", "~> 7.1.0"
+
+# Asset Pipeline
+gem "sprockets-rails"
+gem "jsbundling-rails"
 
 # Database
 gem "pg", "~> 1.1"
@@ -46,17 +50,28 @@ gem "kaminari"
 # UUID generation
 gem "uuid"
 
+# Frontend - Hotwire stack
+gem "hotwire-livereload", group: :development
+gem "turbo-rails", ">= 1.0"
+gem "stimulus-rails", ">= 1.0"
+
+# TailwindCSS
+gem "tailwindcss-rails", "~> 2.0"
+
+# Heroicons
+gem "heroicon", "~> 0.4.0"
+
 platforms :ruby do
-  gem "bootsnap", require: false
+ gem "bootsnap", require: false
 end
 
 group :development, :test do
-  gem "debug", platforms: [:mri, :mswin, :mingw, :x64_mingw]
-  gem "factory_bot_rails"
-  gem "rspec-rails"
+ gem "debug", platforms: [:mri, :mswin, :mingw, :x64_mingw]
+ gem "factory_bot_rails"
+ gem "rspec-rails"
 end
 
 group :test do
-  gem "shoulda-matchers"
-  gem "database_cleaner-active_record"
+ gem "shoulda-matchers"
+ gem "database_cleaner-active_record"
 end

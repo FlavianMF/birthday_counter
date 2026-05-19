@@ -1,0 +1,40 @@
+<div class="container-mobile py-8">
+  <h1 class="text-3xl font-bold text-gradient mb-6">Novo Evento</h1>
+  
+  <div class="glass-card p-6">
+    <%= form_with model: @event, local: true, class: "space-y-4" do |form| %>
+      <div>
+        <%= form.label :name, "Nome do Evento", class: "block text-sm font-medium text-white/70 mb-2" %>
+        <%= form.text_field :name, 
+            required: true,
+            class: "input-glass",
+            placeholder: "Aniversário do João" %>
+      </div>
+
+      <div>
+        <%= form.label :description, "Descrição", class: "block text-sm font-medium text-white/70 mb-2" %>
+        <%= form.text_area :description, 
+            class: "input-glass",
+            placeholder: "Descreva seu evento..." %>
+      </div>
+
+      <div>
+        <%= form.label :target_date, "Data do Aniversário", class: "block text-sm font-medium text-white/70 mb-2" %>
+        <%= form.datetime_select :target_date, 
+            class: "input-glass w-full" %>
+      </div>
+
+      <div>
+        <label class="flex items-center gap-2">
+          <%= form.checkbox :is_surprise, class: "rounded" %>
+          <span class="text-white/70">É uma surpresa?</span>
+        </label>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <%= form.submit "Criar Evento", class: "btn-primary flex-1 cursor-pointer" %>
+        <%= link_to "Cancelar", events_path, class: "btn-secondary flex-1 text-center" %>
+      </div>
+    <% end %>
+  </div>
+</div>

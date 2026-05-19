@@ -1,0 +1,94 @@
+<div class="min-h-screen flex flex-col items-center justify-center p-4">
+  <!-- Hero Section -->
+  <div class="text-center mb-8 animate-fade-in">
+    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-lg shadow-primary-glow animate-float">
+      <span class="text-5xl">🎂</span>
+    </div>
+    
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+      <span class="text-gradient">Birthday Counter</span>
+    </h1>
+    
+    <p class="text-white/70 text-lg md:text-xl max-w-md mx-auto">
+      Transforme a espera pelo aniversário na própria festa
+    </p>
+  </div>
+
+  <!-- Main Countdown Card -->
+  <div class="glass-card p-8 w-full max-w-md mb-8">
+    <h2 class="text-xl font-bold mb-6 text-center">Próximo Aniversário</h2>
+    
+    <div class="grid grid-cols-4 gap-4 mb-6">
+      <div class="text-center">
+        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="days">00</div>
+        <div class="text-xs text-white/50 uppercase mt-2">Dias</div>
+      </div>
+      <div class="text-center">
+        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="hours">00</div>
+        <div class="text-xs text-white/50 uppercase mt-2">Horas</div>
+      </div>
+      <div class="text-center">
+        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="minutes">00</div>
+        <div class="text-xs text-white/50 uppercase mt-2">Min</div>
+      </div>
+      <div class="text-center">
+        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="seconds">00</div>
+        <div class="text-xs text-white/50 uppercase mt-2">Seg</div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a href="/register" class="btn-primary w-full block text-center">Criar Minha Celebração</a>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+    <div class="game-card">
+      <div class="text-4xl mb-3">🎮</div>
+      <h3 class="font-bold text-lg mb-2">Jogos Personalizados</h3>
+      <p class="text-white/60 text-sm">Geoguessr de memórias, Fact or Fiction e mais</p>
+    </div>
+
+    <div class="game-card">
+      <div class="text-4xl mb-3">💰</div>
+      <h3 class="font-bold text-lg mb-2">Economia de Coins</h3>
+      <p class="text-white/60 text-sm">Ganhe coins jogando e gaste em efeitos</p>
+    </div>
+
+    <div class="game-card">
+      <div class="text-4xl mb-3">🎉</div>
+      <h3 class="font-bold text-lg mb-2">Clímax em Tempo Real</h3>
+      <p class="text-white/60 text-sm">Revele cápsulas do tempo no minuto zero</p>
+    </div>
+  </div>
+
+  <div class="mt-8 flex flex-col md:flex-row gap-4">
+    <a href="/register" class="btn-primary text-center">Criar Minha Celebração</a>
+    <a href="/login" class="btn-secondary text-center">Já tenho conta</a>
+  </div>
+</div>
+
+<script>
+  // Countdown timer logic
+  function updateCountdown() {
+    const targetDate = new Date('2026-12-31T00:00:00').getTime();
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    if (difference > 0) {
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>

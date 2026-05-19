@@ -1,0 +1,20 @@
+<div class="container-mobile py-8">
+  <h1 class="text-3xl font-bold text-gradient mb-6"><%= @event.name %></h1>
+  
+  <div class="glass-card p-6 mb-6">
+    <p class="text-white/70 mb-4"><%= @event.description %></p>
+    
+    <div class="mb-6">
+      <div class="text-sm text-white/50 uppercase mb-2">Data do Evento</div>
+      <div class="text-xl font-bold"><%= @event.target_date.strftime("%d/%m/%Y às %H:%M") %></div>
+    </div>
+    
+    <div class="flex gap-4">
+      <%= link_to "Editar", edit_event_path(@event), class: "btn-secondary" %>
+      <%= button_to "Excluir", @event, method: :delete, 
+          class: "btn-secondary text-accent hover:text-accent",
+          data: { confirm: "Tem certeza?" },
+          form: { class: "inline" } %>
+    </div>
+  </div>
+</div>

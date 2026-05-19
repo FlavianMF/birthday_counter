@@ -10,10 +10,11 @@ O **Birthday Counter Experience** é uma sistema que transforma a espera pelo an
 
 ### Stack Tecnológico
 
-- **Backend**: Ruby on Rails 7.1 API
+- **Backend**: Ruby on Rails 7.1 API + Full Stack
+- **Frontend**: Hotwire (Turbo + Stimulus) + TailwindCSS
 - **Banco de Dados**: PostgreSQL 15+ com extensões (uuid-ossp, pg_trgm)
 - **Cache/Real-time**: Redis 7+
-- **Autenticação**: JWT (JSON Web Tokens)
+- **Autenticação**: Session-based + JWT (API)
 - **Background Jobs**: Sidekiq
 - **WebSockets**: ActionCable
 

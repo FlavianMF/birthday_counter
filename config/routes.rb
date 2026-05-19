@@ -1,5 +1,29 @@
 Rails.application.routes.draw do
-  # API Routes
+  # Frontend Routes (Web)
+  root "pages#home"
+  
+  # Authentication
+  get "login", to: "sessions#new"
+  post "login", to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
+  get "logout", to: "sessions#destroy"
+  
+  get "register", to: "registrations#new"
+  post "register", to: "registrations#create"
+  
+  # Resources
+  resources :events do
+    member do
+      get :messages
+      post :messages, to: "events#create_message"
+    end
+  end
+  
+  resources :games, only: [:index, :show]
+  resources :rankings, only: [:index]
+  resources :profile, only: [:show, :edit, :update]
+  
+  # API Routes (for external calls or mobile apps)
   namespace :api do
     namespace :v1 do
       # Authentication
@@ -11,17 +35,17 @@ Rails.application.routes.draw do
       # Events
       resources :events do
         member do
-          post 'join', to: 'events#join'
+          post 'join'
           get 'messages', to: 'events#messages'
           post 'messages', to: 'events#create_message'
-          get 'ranking', to: 'events#ranking'
+          get 'ranking'
         end
-
-        # Games nested under events
-        post 'games/geoguessr/play', to: 'games#geoguessr_play'
-        post 'games/fact-or-fiction/play', to: 'games#fact_or_fiction_play'
-        post 'games/timeline-reorder/play', to: 'games#timeline_reorder_play'
       end
+
+      # Games
+      post 'events/:event_id/games/geoguessr/play', to: 'games#geoguessr_play'
+      post 'events/:event_id/games/fact-or-fiction/play', to: 'games#fact_or_fiction_play'
+      post 'events/:event_id/games/timeline-reorder/play', to: 'games#timeline_reorder_play'
     end
   end
 
@@ -30,7 +54,4 @@ Rails.application.routes.draw do
 
   # Health check
   get '/health', to: lambda { |env| [200, {}, ['OK']] }
-
-  # Root redirect
-  root to: redirect('/health')
 end
