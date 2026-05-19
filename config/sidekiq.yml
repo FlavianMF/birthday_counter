@@ -1,0 +1,16 @@
+:development:
+  :concurrency: 5
+  :queues:
+    - default
+    - mailers
+    - broadcasts
+
+:production:
+  :concurrency: 10
+  :queues:
+    - default
+    - mailers
+    - broadcasts
+
+:timeout: 25
+:verbose: false

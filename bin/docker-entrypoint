@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# Remove preexisting master.key if any
+rm -f tmp/pids/server.pid
+
+# Wait for PostgreSQL to be ready
+if [ -n "$DATABASE_HOST" ]; then
+  echo "Waiting for database at $DATABASE_HOST..."
+  while ! nc -z "$DATABASE_HOST" "${DATABASE_PORT:-5432}" 2>/dev/null; do
+    sleep 0.1
+  done
+  echo "Database is ready!"
+fi
+
+# Run migrations
+echo "Running database migrations..."
+bundle exec rails db:migrate
+
+# Start the server
+echo "Starting Rails server..."
+bundle exec rails server -p 3000 -b '0.0.0.0'
