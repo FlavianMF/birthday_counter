@@ -1,0 +1,61 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#0F172A" />
+  
+  <!-- Animated Blobs (Static representation) -->
+  <circle cx="150" cy="150" r="150" fill="#8B5CF6" opacity="0.2">
+    <animate attributeName="cx" values="150;200;150" dur="10s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="650" cy="450" r="200" fill="#D946EF" opacity="0.15">
+    <animate attributeName="cy" values="450;400;450" dur="12s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Navigation -->
+  <rect x="0" y="0" width="800" height="60" fill="rgba(30, 41, 59, 0.7)" />
+  <text x="40" y="38" font-family="Montserrat, sans-serif" font-weight="bold" fill="white" font-size="20">🎂 Birthday Counter</text>
+  <text x="650" y="38" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.7)" font-size="14">Entrar</text>
+  <rect x="710" y="15" width="70" height="30" rx="8" fill="#8B5CF6" />
+  <text x="720" y="35" font-family="Inter, sans-serif" fill="white" font-size="12" font-weight="bold">Criar</text>
+
+  <!-- Hero Section -->
+  <text x="400" y="180" font-family="Montserrat, sans-serif" font-weight="800" fill="white" font-size="42" text-anchor="middle">
+    A espera é a própria festa.
+  </text>
+  <text x="400" y="220" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.6)" font-size="18" text-anchor="middle">
+    Cápsulas do tempo, jogos e surpresas que abrem no minuto zero.
+  </text>
+
+  <!-- Glass Card Countdown -->
+  <rect x="200" y="280" width="400" height="200" rx="24" fill="rgba(30, 41, 59, 0.6)" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+  <text x="400" y="320" font-family="Inter, sans-serif" font-weight="600" fill="white" font-size="16" text-anchor="middle">PRÓXIMO ANIVERSÁRIO EM</text>
+  
+  <!-- Digits -->
+  <g transform="translate(230, 350)">
+    <rect width="70" height="80" rx="12" fill="rgba(139, 92, 246, 0.1)" stroke="rgba(139, 92, 246, 0.3)" />
+    <text x="35" y="55" font-family="JetBrains Mono, monospace" font-weight="bold" fill="#D946EF" font-size="32" text-anchor="middle">08</text>
+    <text x="35" y="100" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">DIAS</text>
+  </g>
+  <g transform="translate(315, 350)">
+    <rect width="70" height="80" rx="12" fill="rgba(139, 92, 246, 0.1)" stroke="rgba(139, 92, 246, 0.3)" />
+    <text x="35" y="55" font-family="JetBrains Mono, monospace" font-weight="bold" fill="#D946EF" font-size="32" text-anchor="middle">14</text>
+    <text x="35" y="100" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">HORAS</text>
+  </g>
+  <g transform="translate(400, 350)">
+    <rect width="70" height="80" rx="12" fill="rgba(139, 92, 246, 0.1)" stroke="rgba(139, 92, 246, 0.3)" />
+    <text x="35" y="55" font-family="JetBrains Mono, monospace" font-weight="bold" fill="#D946EF" font-size="32" text-anchor="middle">32</text>
+    <text x="35" y="100" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">MIN</text>
+  </g>
+  <g transform="translate(485, 350)">
+    <rect width="70" height="80" rx="12" fill="rgba(139, 92, 246, 0.1)" stroke="rgba(139, 92, 246, 0.3)" />
+    <text x="35" y="55" font-family="JetBrains Mono, monospace" font-weight="bold" fill="#D946EF" font-size="32" text-anchor="middle">12</text>
+    <text x="35" y="100" font-family="Inter, sans-serif" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">SEG</text>
+  </g>
+
+  <!-- CTA Button -->
+  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    <stop offset="100%" style="stop-color:#D946EF;stop-opacity:1" />
+  </linearGradient>
+  <rect x="300" y="520" width="200" height="50" rx="12" fill="url(#grad1)" />
+  <text x="400" y="552" font-family="Inter, sans-serif" font-weight="bold" fill="white" font-size="16" text-anchor="middle">Criar Celebração</text>
+</svg>

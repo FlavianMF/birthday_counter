@@ -1,19 +1,17 @@
-// Import and register all Stimulus controllers using Vite
-
 import { Application } from "@hotwired/stimulus"
+
+import CelebrationController from "./celebration_controller"
+import CountdownController from "./countdown_controller"
+import IntersectionController from "./intersection_controller"
+import ModalController from "./modal_controller"
+import TabsController from "./tabs_controller"
 
 const application = Application.start()
 
-// Import all controllers automatically
-const controllers = import.meta.glob("./controllers/**/*_controller.js", { eager: true })
+application.register("celebration", CelebrationController)
+application.register("countdown", CountdownController)
+application.register("intersection", IntersectionController)
+application.register("modal", ModalController)
+application.register("tabs", TabsController)
 
-// Register controllers
-Object.keys(controllers).forEach((path) => {
-  const name = path.replace("./controllers/", "").replace("_controller.js", "")
-  const controller = controllers[path].default
-  if (controller) {
-    application.register(name, controller)
-  }
-})
-
-export default application
+export { application }

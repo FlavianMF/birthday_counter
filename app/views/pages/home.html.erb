@@ -13,7 +13,8 @@
       <div class="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
       
       <!-- Main logo container -->
-      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/50 transform hover:scale-110 transition-all duration-500 animate-float">
+      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/50 transform hover:scale-110 transition-all duration-500 animate-float cursor-pointer active:scale-95" 
+           data-action="click->celebration#rain">
         <!-- Inner shine effect -->
         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
         <span class="text-6xl relative z-10">🎂</span>
@@ -139,48 +140,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  // Enhanced countdown timer logic with animation
-  function updateCountdown() {
-    const targetDate = new Date('2026-12-31T00:00:00').getTime();
-    const now = new Date().getTime();
-    const difference = targetDate - now;
-
-    if (difference > 0) {
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      const daysEl = document.getElementById('days');
-      const hoursEl = document.getElementById('hours');
-      const minutesEl = document.getElementById('minutes');
-      const secondsEl = document.getElementById('seconds');
-
-      if (daysEl && daysEl.textContent !== String(days).padStart(2, '0')) {
-        daysEl.classList.add('scale-110', 'text-fuchsia-400');
-        setTimeout(() => daysEl.classList.remove('scale-110', 'text-fuchsia-400'), 150);
-      }
-      
-      updateElement(hoursEl, hours);
-      updateElement(minutesEl, minutes);
-      updateElement(secondsEl, seconds);
-
-      function updateElement(el, value) {
-        const padded = String(value).padStart(2, '0');
-        if (el && el.textContent !== padded) {
-          el.textContent = padded;
-        }
-      }
-
-      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-    }
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-</script>

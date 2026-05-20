@@ -1,6 +1,6 @@
 FROM ruby:3.0.2-slim
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
   postgresql-client \
   libpq-dev \
@@ -11,9 +11,6 @@ RUN apt-get update -qq && apt-get install -y \
   curl \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js dependencies for Tailwind
-RUN npm install -g tailwindcss
-
 # Set working directory
 WORKDIR /app
 
@@ -21,13 +18,27 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
+# Install npm dependencies
+COPY package.json ./
+RUN npm install
+
 # Copy application code
 COPY . .
 
-# Precompile assets (including Tailwind)
-RUN bash -c "set -x && gem install tailwindcss-rails && rails tailwindcss:build || echo 'Tailwind build may have warnings'"
+# Set environment variables for precompilation ONLY
+# We use a subshell for precompilation to avoid leaking these to the final image
+RUN RAILS_ENV=production \
+    SECRET_KEY_BASE_DUMMY=1 \
+    DATABASE_URL=postgresql://postgres@localhost/dummy_db \
+    bundle exec rails tailwindcss:build && \
+    ./node_modules/.bin/esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets && \
+    cp app/assets/builds/tailwind.css app/assets/builds/application.css && \
+    bundle exec rails assets:precompile
+
+# For development, we ensure the builds folder is accessible
+RUN mkdir -p tmp/cache/assets && chmod -R 777 tmp/cache
 
 # Default command
-CMD ["bash", "-c", "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"]
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"]
 
 EXPOSE 3000
