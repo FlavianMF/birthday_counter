@@ -243,7 +243,7 @@ Padronização seguindo as convenções do Rails:
 3. Renomeado o diretório de views de `app/views/profile/` para `app/views/profiles/`.
 
 **Branch:** `fix/profile-routing-error`  
-**Commit:** `[SHA-DRAFT]`
+**Commit:** `a82f923`
 
 ### Resultado
 - A rota de perfil agora funciona corretamente, carregando o `ProfilesController` e renderizando as views do diretório correto.
