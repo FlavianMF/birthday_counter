@@ -1,71 +1,100 @@
-<div class="min-h-screen flex flex-col items-center justify-center p-4">
-  <!-- Hero Section -->
-  <div class="text-center mb-8 animate-fade-in">
-    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-lg shadow-primary-glow animate-float">
-      <span class="text-5xl">🎂</span>
+<div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-background via-background to-surface/30">
+  <!-- Hero Section with enhanced animations -->
+  <div class="text-center mb-12 animate-fade-in">
+    <!-- Animated logo with glow -->
+    <div class="relative w-24 h-24 mx-auto mb-6">
+      <div class="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-3xl blur-lg opacity-50 animate-pulse"></div>
+      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/50 transform hover:scale-110 transition-transform duration-300 animate-float">
+        <span class="text-6xl">🎂</span>
+      </div>
     </div>
     
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
-      <span class="text-gradient">Birthday Counter</span>
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
+      <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+        Birthday Counter
+      </span>
     </h1>
     
-    <p class="text-white/70 text-lg md:text-xl max-w-md mx-auto">
+    <p class="text-white/70 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
       Transforme a espera pelo aniversário na própria festa
     </p>
   </div>
 
-  <!-- Main Countdown Card -->
-  <div class="glass-card p-8 w-full max-w-md mb-8">
-    <h2 class="text-xl font-bold mb-6 text-center">Próximo Aniversário</h2>
+  <!-- Main Countdown Card with enhanced glassmorphism -->
+  <div class="relative glass-card p-8 w-full max-w-md mb-8 group hover:border-primary/50 transition-all duration-300">
+    <!-- Subtle glow on hover -->
+    <div class="absolute inset-0 bg-gradient-to-r from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/5 group-hover:to-fuchsia-600/5 rounded-2xl transition-all duration-300"></div>
     
-    <div class="grid grid-cols-4 gap-4 mb-6">
-      <div class="text-center">
-        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="days">00</div>
-        <div class="text-xs text-white/50 uppercase mt-2">Dias</div>
+    <div class="relative">
+      <h2 class="text-xl font-bold mb-6 text-center text-white/90">Próximo Aniversário</h2>
+      
+      <!-- Countdown display -->
+      <div class="grid grid-cols-4 gap-3 mb-8">
+        <div class="text-center">
+          <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="days">00</div>
+          <div class="text-xs text-white/50 uppercase mt-2 font-medium">Dias</div>
+        </div>
+        <div class="text-center">
+          <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="hours">00</div>
+          <div class="text-xs text-white/50 uppercase mt-2 font-medium">Horas</div>
+        </div>
+        <div class="text-center">
+          <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="minutes">00</div>
+          <div class="text-xs text-white/50 uppercase mt-2 font-medium">Min</div>
+        </div>
+        <div class="text-center">
+          <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="seconds">00</div>
+          <div class="text-xs text-white/50 uppercase mt-2 font-medium">Seg</div>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="hours">00</div>
-        <div class="text-xs text-white/50 uppercase mt-2">Horas</div>
-      </div>
-      <div class="text-center">
-        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="minutes">00</div>
-        <div class="text-xs text-white/50 uppercase mt-2">Min</div>
-      </div>
-      <div class="text-center">
-        <div class="countdown-digit bg-gradient-to-b from-violet-500 to-fuchsia-500 bg-clip-text text-transparent" id="seconds">00</div>
-        <div class="text-xs text-white/50 uppercase mt-2">Seg</div>
-      </div>
-    </div>
 
-    <div class="text-center">
-      <a href="/register" class="btn-primary w-full block text-center">Criar Minha Celebração</a>
+      <!-- CTA Button -->
+      <div class="space-y-3">
+        <a href="/register" class="btn-primary w-full block text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary/30">
+          Criar Minha Celebração
+        </a>
+        <a href="/login" class="btn-secondary w-full block text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+          Já tenho conta
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- Features -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
-    <div class="game-card">
-      <div class="text-4xl mb-3">🎮</div>
-      <h3 class="font-bold text-lg mb-2">Jogos Personalizados</h3>
-      <p class="text-white/60 text-sm">Geoguessr de memórias, Fact or Fiction e mais</p>
+  <!-- Features with enhanced cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+    <div class="game-card group">
+      <div class="text-5xl mb-4 transform group-hover:scale-125 transition-transform duration-300">🎮</div>
+      <h3 class="font-bold text-lg mb-2 text-white/90">Jogos Personalizados</h3>
+      <p class="text-white/60 text-sm leading-relaxed">Geoguessr de memórias, Fact or Fiction e mais</p>
     </div>
 
-    <div class="game-card">
-      <div class="text-4xl mb-3">💰</div>
-      <h3 class="font-bold text-lg mb-2">Economia de Coins</h3>
-      <p class="text-white/60 text-sm">Ganhe coins jogando e gaste em efeitos</p>
+    <div class="game-card group">
+      <div class="text-5xl mb-4 transform group-hover:scale-125 transition-transform duration-300">💰</div>
+      <h3 class="font-bold text-lg mb-2 text-white/90">Economia de Coins</h3>
+      <p class="text-white/60 text-sm leading-relaxed">Ganhe coins jogando e gaste em efeitos</p>
     </div>
 
-    <div class="game-card">
-      <div class="text-4xl mb-3">🎉</div>
-      <h3 class="font-bold text-lg mb-2">Clímax em Tempo Real</h3>
-      <p class="text-white/60 text-sm">Revele cápsulas do tempo no minuto zero</p>
+    <div class="game-card group">
+      <div class="text-5xl mb-4 transform group-hover:scale-125 transition-transform duration-300">🎉</div>
+      <h3 class="font-bold text-lg mb-2 text-white/90">Clímax em Tempo Real</h3>
+      <p class="text-white/60 text-sm leading-relaxed">Revele cápsulas do tempo no minuto zero</p>
     </div>
   </div>
 
-  <div class="mt-8 flex flex-col md:flex-row gap-4">
-    <a href="/register" class="btn-primary text-center">Criar Minha Celebração</a>
-    <a href="/login" class="btn-secondary text-center">Já tenho conta</a>
+  <!-- Social proof / Stats -->
+  <div class="mt-12 grid grid-cols-3 gap-6 text-center">
+    <div class="text-white/60">
+      <div class="text-2xl md:text-3xl font-bold text-gradient mb-1">100+</div>
+      <div class="text-xs uppercase tracking-wide">Eventos</div>
+    </div>
+    <div class="text-white/60">
+      <div class="text-2xl md:text-3xl font-bold text-gradient mb-1">1000+</div>
+      <div class="text-xs uppercase tracking-wide">Jogadores</div>
+    </div>
+    <div class="text-white/60">
+      <div class="text-2xl md:text-3xl font-bold text-gradient mb-1">∞</div>
+      <div class="text-xs uppercase tracking-wide">Diversão</div>
+    </div>
   </div>
 </div>
 

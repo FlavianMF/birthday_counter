@@ -1,21 +1,81 @@
-<div class="container-mobile py-8">
-  <h1 class="text-3xl font-bold text-gradient mb-6">Meus Eventos</h1>
+<div class="container-mobile py-8 px-4">
+  <!-- Page Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-2">
+        Meus Eventos
+      </h1>
+      <p class="text-white/60 text-sm">Gerencie suas celebrações</p>
+    </div>
+    <%= link_to new_event_path, class: "btn-primary flex items-center gap-2 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary/30" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      <span class="hidden md:inline">Novo Evento</span>
+    <% end %>
+  </div>
   
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <% @events.each do |event| %>
-      <div class="glass-card p-6">
-        <h3 class="text-xl font-bold mb-2"><%= event.name %></h3>
-        <p class="text-white/60 text-sm mb-4"><%= event.description %></p>
-        <%= link_to event, class: "btn-primary block text-center" do %>
-          Ver Detalhes
-        <% end %>
+  <!-- Events Grid -->
+  <% if @events.present? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @events.each do |event| %>
+        <div class="group relative glass-card p-6 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1">
+          <!-- Card glow effect on hover -->
+          <div class="absolute inset-0 bg-gradient-to-r from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/5 group-hover:to-fuchsia-600/5 rounded-2xl transition-all duration-300"></div>
+          
+          <div class="relative">
+            <!-- Event Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white/90 mb-1 line-clamp-1"><%= event.name %></h3>
+                <p class="text-white/60 text-sm line-clamp-2"><%= event.description %></p>
+              </div>
+              <!-- Status Badge -->
+              <span class="badge badge-primary ml-2 flex-shrink-0">
+                <%= event.status == 'active' ? 'Ativo' : 'Climax' %>
+              </span>
+            </div>
+
+            <!-- Event Date -->
+            <div class="flex items-center gap-2 text-white/60 text-sm mb-4">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span><%= event.date&.strftime("%d/%m/%Y") || 'Data não definida' %></span>
+            </div>
+
+            <!-- Message Count -->
+            <div class="flex items-center gap-2 text-white/60 text-sm mb-6">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 6.627-4.03 12-9 12s-9-5.373-9-12 4.03-12 9-12 9 5.373 9 12z"></path>
+              </svg>
+              <span><%= event.messages&.count || 0 %> mensagens</span>
+            </div>
+
+            <!-- Action Button -->
+            <%= link_to event, class: "btn-primary w-full block text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" do %>
+              Ver Detalhes
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="relative glass-card p-12 text-center">
+      <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-full flex items-center justify-center">
+        <span class="text-5xl">🎉</span>
       </div>
-    <% end %>
-  </div>
-  
-  <div class="mt-6">
-    <%= link_to new_event_path, class: "btn-primary" do %>
-      Novo Evento
-    <% end %>
-  </div>
+      <h3 class="text-xl font-bold text-white/90 mb-2">Nenhum evento ainda</h3>
+      <p class="text-white/60 text-sm mb-6 max-w-md mx-auto">
+        Crie seu primeiro evento para começar a planejar sua celebração
+      </p>
+      <%= link_to new_event_path, class: "btn-primary inline-flex items-center gap-2 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary/30" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Criar Primeiro Evento
+      <% end %>
+    </div>
+  <% end %>
 </div>

@@ -1,52 +1,80 @@
-<div class="min-h-screen flex items-center justify-center p-4">
+<div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-surface/50">
   <div class="w-full max-w-md">
-    <!-- Back button -->
+    <!-- Back button with improved styling -->
     <div class="mb-6">
-      <%= link_to root_path, class: "flex items-center gap-2 text-white/70 hover:text-white transition-colors" do %>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <%= link_to root_path, class: "group inline-flex items-center gap-2 text-white/60 hover:text-white transition-all duration-200 hover:gap-3" do %>
+        <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
-        <span>Voltar</span>
+        <span class="font-medium">Voltar</span>
       <% end %>
     </div>
 
-    <!-- Login Card -->
-    <div class="glass-card p-8">
-      <div class="text-center mb-8">
-        <div class="w-16 h-16 mx-auto mb-4 bg-gradient-primary rounded-2xl flex items-center justify-center">
-          <span class="text-3xl">🎂</span>
+    <!-- Login Card with enhanced glassmorphism -->
+    <div class="relative">
+      <!-- Glow effect behind card -->
+      <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-3xl blur opacity-30 animate-pulse"></div>
+      
+      <div class="relative glass-card p-8 animate-fade-in">
+        <!-- Header with logo -->
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/50 transform hover:scale-110 transition-transform duration-300">
+            <span class="text-4xl">🎂</span>
+          </div>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-2">
+            Entrar
+          </h1>
+          <p class="text-white/60 text-sm">
+            Acesse sua conta para continuar
+          </p>
         </div>
-        <h1 class="text-2xl font-bold text-gradient">Entrar</h1>
-        <p class="text-white/60 mt-2">Acesse sua conta para continuar</p>
+
+        <!-- Login Form -->
+        <%= form_with url: login_path, method: :post, class: "space-y-5" do |form| %>
+          <div class="space-y-1">
+            <%= label_tag :email, "Email", class: "block text-sm font-medium text-white/80" %>
+            <%= email_field_tag :email, params[:email], 
+                required: true,
+                autocomplete: "email",
+                class: "input-glass transition-all duration-200 focus:scale-[1.02]",
+                placeholder: "seu@email.com" %>
+          </div>
+
+          <div class="space-y-1">
+            <%= label_tag :password, "Senha", class: "block text-sm font-medium text-white/80" %>
+            <%= password_field_tag :password, nil,
+                required: true,
+                autocomplete: "current-password",
+                class: "input-glass transition-all duration-200 focus:scale-[1.02]",
+                placeholder: "••••••••" %>
+          </div>
+
+          <%= form.submit "Entrar", class: "btn-primary w-full cursor-pointer mt-6 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-primary/30" %>
+        <% end %>
+
+        <!-- Register link -->
+        <div class="mt-8 text-center pt-6 border-t border-white/10">
+          <p class="text-white/60 text-sm">
+            Não tem uma conta?
+            <%= link_to "Criar conta", register_path, class: "text-primary hover:text-primary/80 font-medium transition-colors ml-1" %>
+          </p>
+        </div>
       </div>
+    </div>
 
-      <%= form_with url: login_path, method: :post, class: "space-y-4" do |form| %>
-        <div>
-          <%= label_tag :email, "Email", class: "block text-sm font-medium text-white/70 mb-2" %>
-          <%= email_field_tag :email, params[:email], 
-              required: true,
-              autocomplete: "email",
-              class: "input-glass",
-              placeholder: "seu@email.com" %>
-        </div>
-
-        <div>
-          <%= label_tag :password, "Senha", class: "block text-sm font-medium text-white/70 mb-2" %>
-          <%= password_field_tag :password, nil,
-              required: true,
-              autocomplete: "current-password",
-              class: "input-glass",
-              placeholder: "••••••••" %>
-        </div>
-
-        <%= form.submit "Entrar", class: "btn-primary w-full cursor-pointer mt-6" %>
-      <% end %>
-
-      <div class="mt-6 text-center">
-        <p class="text-white/60 text-sm">
-          Não tem uma conta?
-          <%= link_to "Criar conta", register_path, class: "text-primary hover:underline" %>
-        </p>
+    <!-- Features section -->
+    <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+      <div class="text-white/40 text-xs">
+        <div class="text-2xl mb-1">🎮</div>
+        <div>Jogos</div>
+      </div>
+      <div class="text-white/40 text-xs">
+        <div class="text-2xl mb-1">🏆</div>
+        <div>Ranking</div>
+      </div>
+      <div class="text-white/40 text-xs">
+        <div class="text-2xl mb-1">🎉</div>
+        <div>Comemore</div>
       </div>
     </div>
   </div>
