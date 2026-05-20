@@ -196,7 +196,7 @@ Arquivo: `app/views/events/new.html.erb`
 Alterado `<%= form.checkbox :is_surprise, ... %>` para `<%= form.check_box :is_surprise, ... %>`.
 
 **Branch:** `fix/event-form-typo`  
-**Commit:** `[SHA-DRAFT]`
+**Commit:** `64c0241`
 
 ### Resultado
 - A página de criação de novos eventos agora carrega corretamente sem erros de método indefinido.
