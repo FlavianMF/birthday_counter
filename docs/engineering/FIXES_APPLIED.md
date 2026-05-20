@@ -203,3 +203,26 @@ Alterado `<%= form.checkbox :is_surprise, ... %>` para `<%= form.check_box :is_s
 - O campo "É uma surpresa?" funciona como esperado.
 
 ---
+
+## 8. Problema: NameError in Pages#home (current_user_coins)
+
+### Sintomas
+- Erro `NameError in Pages#home`
+- Mensagem: `undefined local variable or method 'current_user_coins' for #<ActionView::Base:...>`
+- Ocorria ao renderizar a navbar quando o usuário estava logado
+
+### Causa Raiz
+O método `current_user_coins` estava definido no `ApplicationController`, mas não estava exposto como um `helper_method`, tornando-o inacessível para as views.
+
+### Solução
+Arquivo: `app/controllers/application_controller.rb`
+
+**Mudança aplicada:**
+Adicionado `:current_user_coins` à lista de `helper_method`.
+
+**Branch:** `main` (Fix direto)
+
+### Resultado
+- O saldo de moedas do usuário agora é exibido corretamente na navbar sem causar erros de NameError.
+
+---
