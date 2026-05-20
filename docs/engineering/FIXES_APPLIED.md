@@ -179,4 +179,27 @@ config.require_master_key = true
 
 ---
 
-**Status Final**: Ambiente estabilizado, pipeline de assets funcional, design system aplicado, fluxo de registro corrigido, e sessão de usuário persistente.
+## 7. Problema: NoMethodError no formulário de Novo Evento
+
+### Sintomas
+- Erro `NoMethodError in Events#new`
+- Mensagem: `undefined method 'checkbox' for #<ActionView::Helpers::FormBuilder:...>`
+- Ocorria ao acessar a página de criação de evento
+
+### Causa Raiz
+Houve um erro de digitação no arquivo `app/views/events/new.html.erb`. O helper correto do Rails para criar um checkbox em um `form_with` é `check_box`, mas foi utilizado `checkbox`.
+
+### Solução
+Arquivo: `app/views/events/new.html.erb`
+
+**Mudança aplicada:**
+Alterado `<%= form.checkbox :is_surprise, ... %>` para `<%= form.check_box :is_surprise, ... %>`.
+
+**Branch:** `fix/event-form-typo`  
+**Commit:** `[SHA-DRAFT]`
+
+### Resultado
+- A página de criação de novos eventos agora carrega corretamente sem erros de método indefinido.
+- O campo "É uma surpresa?" funciona como esperado.
+
+---
