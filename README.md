@@ -338,6 +338,22 @@ MIT License
 - **Guest**: Amigos participantes
 - **Admin**: Moderação e governança
 
+## 🚀 Design & Interface
+
+O projeto utiliza um design system **Modern Festive Dark** baseado em Tailwind CSS e Hotwire.
+
+- **Fundo**: Slate 950 com gradientes animados.
+- **Componentes**: Glassmorphism com backdrop blur.
+- **Interatividade**: Stimulus controllers para countdowns e efeitos de celebração.
+
+## 🛠 Troubleshooting de Assets (Docker)
+
+Se enfrentar problemas com CSS não carregando ou erros de compilação:
+
+1. Consulte o [Relatório de Correções Técnicas](docs/engineering/FIXES_APPLIED.md).
+2. Certifique-se de que os assets foram compilados: `docker compose exec api bundle exec rails assets:precompile`.
+3. Verifique se o arquivo `app/assets/builds/application.css` existe no container.
+
 ---
 
 **Status**: Em desenvolvimento
