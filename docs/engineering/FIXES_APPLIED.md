@@ -120,3 +120,63 @@ end
 ---
 
 **Status Final**: Ambiente estabilizado, pipeline de assets funcional, design system aplicado, e fluxo de registro corrigido.
+
+---
+
+## 6. Problema: Sessão não persiste (usuário é deslogado ao navegar)
+
+### Sintomas
+- Após fazer login, ao clicar em "Criar Evento" ou navegar para outras páginas, o usuário era redirecionado para a página de login
+- A sessão não estava persistindo entre requisições
+- Ocorria mesmo com `session[:user_id]` sendo definido corretamente no controller
+
+### Causa Raiz
+O Rails requer uma `SECRET_KEY_BASE` válida para criptografar e validar cookies de sessão. Sem essa configuração:
+1. Os cookies de sessão não eram properly criptografados
+2. Cada requisição tratava a sessão como inválida
+3. O `current_user` retornava nil mesmo após login bem-sucedido
+4. A configuração do session_store não estava otimizada para ambientes Docker
+
+### Solução
+Múltiplos arquivos modificados:
+
+**1. config/initializers/session_store.rb** - Configuração robusta do session store:
+```ruby
+Rails.application.config.session_store :cookie_store, 
+  key: '_birthday_project_session',
+  same_site: :lax,
+  expire_after: 14.days,
+  secure: Rails.env.production?,
+  httponly: true,
+  domain: :all
+```
+
+**2. .env e .env.example** - Adicionado SECRET_KEY_BASE:
+```bash
+# Session Secret (required for session persistence)
+SECRET_KEY_BASE=development-secret-key-base-change-in-production
+```
+
+**3. docker-compose.yml** - Adicionado SECRET_KEY_BASE para api e sidekiq:
+```yaml
+environment:
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-${RAILS_MASTER_KEY:-development-secret-key-base-change-in-production}}
+```
+
+**4. config/environments/production.rb** - Reforçar segurança em produção:
+```ruby
+config.require_master_key = true
+```
+
+**Branch:** `fix/session-persistence`  
+**Commit:** `7526c6a`
+
+### Resultado
+- Sessão agora persiste corretamente entre navegações
+- Usuários logados permanecem autenticados ao navegar entre páginas
+- Cookies de sessão configurados com boas práticas de segurança
+- Compatível com ambiente Docker e desenvolvimento local
+
+---
+
+**Status Final**: Ambiente estabilizado, pipeline de assets funcional, design system aplicado, fluxo de registro corrigido, e sessão de usuário persistente.
