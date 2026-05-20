@@ -52,6 +52,7 @@ services:
       DATABASE_PORT: 5432
       REDIS_URL: redis://redis:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-${RAILS_MASTER_KEY:-development-secret-key-base-change-in-production}}
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
     depends_on:
       db:
@@ -75,6 +76,7 @@ services:
       DATABASE_PORT: 5432
       REDIS_URL: redis://redis:6379/0
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-${RAILS_MASTER_KEY:-development-secret-key-base-change-in-production}}
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
     depends_on:
       db:
