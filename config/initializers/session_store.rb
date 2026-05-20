@@ -7,5 +7,4 @@ Rails.application.config.session_store :cookie_store,
   same_site: :lax,
   expire_after: 14.days,
   secure: Rails.env.production?,
-  httponly: true,
-  domain: :all
+  httponly: true
