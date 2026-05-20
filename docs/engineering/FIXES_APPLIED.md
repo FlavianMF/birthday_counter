@@ -67,3 +67,56 @@ Variáveis de ambiente de build estavam persistindo no container, sobrescrevendo
 ---
 
 **Status Final**: Ambiente estabilizado, pipeline de assets funcional e design system aplicado.
+
+---
+
+## 5. Problema: Erro na Registration Flow (ActionController::ParameterMissing)
+
+### Sintomas
+- Erro `ActionController::ParameterMissing in RegistrationsController#create` com mensagem "param is missing or the value is empty: user"
+- Ocorria ao tentar criar uma nova conta de usuário
+- Request parameters mostravam campos planos: `{"name"=>"...", "email"=>"...", "password"=>"[FILTERED]", ...}`
+
+### Causa Raiz
+O controlador `RegistrationsController` esperava parâmetros aninhados (`params.require(:user)`) mas o formulário estava enviando parâmetros planos (flat). Isso acontecia porque:
+
+1. O formulário `form_with model: @user` deveria encapsular os parâmetros automaticamente em `user[]`
+2. Porém, a action `new` não inicializava `@user = User.new`, quebrando o comportamento esperado
+3. O método `registration_params` usava `params.require(:user).permit(...)` que falhava ao não encontrar o escopo `user`
+
+### Solução
+Arquivo: `app/controllers/registrations_controller.rb`
+
+**Mudanças aplicadas:**
+
+1. **Inicializar `@user` na action `new`:**
+```ruby
+def new
+  @user = User.new
+end
+```
+
+2. **Remover `require(:user)` do método `registration_params`:**
+```ruby
+# Antes
+def registration_params
+  params.require(:user).permit(:email, :password, :password_confirmation, :name)
+end
+
+# Depois
+def registration_params
+  params.permit(:email, :password, :password_confirmation, :name)
+end
+```
+
+**Branch:** `fix/registration-params`  
+**Commit:** `7955a4a`
+
+### Resultado
+- Formulário de registro agora funciona corretamente
+- Usuários podem criar contas sem erros de parâmetros
+- Validações do model User continuam funcionando normalmente
+
+---
+
+**Status Final**: Ambiente estabilizado, pipeline de assets funcional, design system aplicado, e fluxo de registro corrigido.
