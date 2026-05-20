@@ -8,8 +8,7 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: %w[host guest sponsor admin] }
 
   # Associations
-  has_many :hosted_events, -> { where(role: 'host') },
-           through: :event_participants, source: :event
+  has_many :hosted_events, class_name: 'Event', foreign_key: :host_id, dependent: :destroy
   has_many :event_participants, dependent: :destroy
   has_many :events, through: :event_participants
   has_many :messages, foreign_key: :sender_id, dependent: :nullify
