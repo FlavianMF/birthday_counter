@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   
   resources :games, only: [:index, :show]
   resources :rankings, only: [:index]
-  resources :profile, only: [:show, :edit, :update]
+  # Singular resource for user profile (no ID needed, uses current_user)
+resource :profile, only: [:show, :edit, :update]
   
   # API Routes (for external calls or mobile apps)
   namespace :api do

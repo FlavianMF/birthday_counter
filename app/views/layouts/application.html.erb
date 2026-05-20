@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html class="h-full bg-background">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= content_for(:title) || "Birthday Counter" %></title>
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag "application.tailwind", "data-turbo-track": "reload" %>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= content_for(:title) || "Birthday Counter - Transforme a espera pela festa" %></title>
+  <meta name="description" content="Transforme a espera pelo aniversário na própria festa. Jogos, rankings e cápsulas do tempo.">
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag "application.tailwind", "data-turbo-track": "reload" %>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   </head>
 
-  <body class="h-full">
-    <div class="min-h-full">
-      <%= render "shared/flash_messages" %>
-      <%= yield %>
-    </div>
+  <body class="h-full overflow-x-hidden">
+  <!-- Background gradient blobs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-blob"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-fuchsia/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+  </div>
+  
+  <div class="relative min-h-full">
+    <%= render "shared/flash_messages" %>
+    <%= yield %>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <%= render "shared/bottom_nav" %>
   </body>
 </html>

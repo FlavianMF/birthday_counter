@@ -1,26 +1,143 @@
-<div class="container-mobile py-8">
-  <h1 class="text-3xl font-bold text-gradient mb-6">Jogos</h1>
+<div class="container-mobile py-8 relative z-10">
+  <!-- Page Header -->
+  <div class="animate-fade-in mb-8">
+    <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent mb-2">
+      Jogos
+    </h1>
+    <p class="text-white/60 text-sm">Ganhe coins e conquiste o ranking</p>
+  </div>
   
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="game-card">
-      <div class="text-4xl mb-3">🌍</div>
-      <h3 class="font-bold text-lg mb-2">Geoguessr</h3>
-      <p class="text-white/60 text-sm mb-4">Adivinhe a localização das fotos</p>
-      <button class="btn-primary w-full">Jogar</button>
+  <!-- Games Grid with staggered animation -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Geoguessr Card -->
+    <div class="game-card group animate-fade-in" style="animation-delay: 100ms">
+      <div class="relative mb-4">
+        <!-- Animated background glow -->
+        <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+        
+        <!-- Icon container -->
+        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">🌍</div>
+        </div>
+      </div>
+      
+      <h3 class="font-bold text-lg mb-2 text-white/90">Geoguessr</h3>
+      <p class="text-white/60 text-sm mb-4">Adivinhe a localização das fotos e ganhe pontos por precisão</p>
+      
+      <!-- Stats -->
+      <div class="flex justify-center gap-4 mb-4 text-xs">
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-secondary rounded-full"></span>
+          <span>Até 5000 pts</span>
+        </div>
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-primary rounded-full"></span>
+          <span>coins</span>
+        </div>
+      </div>
+      
+      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+        <span class="flex items-center justify-center gap-2">
+          <span>Jogar Agora</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </span>
+      </button>
     </div>
     
-    <div class="game-card">
-      <div class="text-4xl mb-3">❓</div>
-      <h3 class="font-bold text-lg mb-2">Fact or Fiction</h3>
-      <p class="text-white/60 text-sm mb-4">Descubra a verdade sobre o aniversariante</p>
-      <button class="btn-primary w-full">Jogar</button>
+    <!-- Fact or Fiction Card -->
+    <div class="game-card group animate-fade-in" style="animation-delay: 200ms">
+      <div class="relative mb-4">
+        <div class="absolute inset-0 bg-gradient-to-r from-fuchsia-600/20 to-pink-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+        
+        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-fuchsia-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">❓</div>
+        </div>
+      </div>
+      
+      <h3 class="font-bold text-lg mb-2 text-white/90">Fact or Fiction</h3>
+      <p class="text-white/60 text-sm mb-4">Descubra a verdade sobre o aniversariante com IA</p>
+      
+      <!-- Stats -->
+      <div class="flex justify-center gap-4 mb-4 text-xs">
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-secondary rounded-full"></span>
+          <span>500 pts</span>
+        </div>
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-primary rounded-full"></span>
+          <span>IA</span>
+        </div>
+      </div>
+      
+      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+        <span class="flex items-center justify-center gap-2">
+          <span>Jogar Agora</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </span>
+      </button>
     </div>
     
-    <div class="game-card">
-      <div class="text-4xl mb-3">📅</div>
-      <h3 class="font-bold text-lg mb-2">Timeline</h3>
-      <p class="text-white/60 text-sm mb-4">Ordene as fotos cronologicamente</p>
-      <button class="btn-primary w-full">Jogar</button>
+    <!-- Timeline Card -->
+    <div class="game-card group animate-fade-in" style="animation-delay: 300ms">
+      <div class="relative mb-4">
+        <div class="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-orange-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+        
+        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">📅</div>
+        </div>
+      </div>
+      
+      <h3 class="font-bold text-lg mb-2 text-white/90">Timeline</h3>
+      <p class="text-white/60 text-sm mb-4">Ordene as fotos cronologicamente e prove sua memória</p>
+      
+      <!-- Stats -->
+      <div class="flex justify-center gap-4 mb-4 text-xs">
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-secondary rounded-full"></span>
+          <span>1000 pts</span>
+        </div>
+        <div class="flex items-center gap-1 text-white/60">
+          <span class="w-2 h-2 bg-primary rounded-full"></span>
+          <span>Tudo ou nada</span>
+        </div>
+      </div>
+      
+      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+        <span class="flex items-center justify-center gap-2">
+          <span>Jogar Agora</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- How to Play Section -->
+  <div class="mt-12 glass-card p-6 animate-fade-in">
+    <h3 class="font-bold text-lg mb-4 text-white/90 flex items-center gap-2">
+      <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      Como Funciona
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-white/60">
+      <div class="flex items-start gap-2">
+        <span class="flex-shrink-0 w-6 h-6 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">1</span>
+        <span>Jogue os minigames para ganhar pontos e coins</span>
+      </div>
+      <div class="flex items-start gap-2">
+        <span class="flex-shrink-0 w-6 h-6 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>
+        <span>Acumule coins para desbloquear efeitos especiais</span>
+      </div>
+      <div class="flex items-start gap-2">
+        <span class="flex-shrink-0 w-6 h-6 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">3</span>
+        <span>Suba no ranking e mostre quem é o rei da festa!</span>
+      </div>
     </div>
   </div>
 </div>
