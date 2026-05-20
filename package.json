@@ -1,0 +1,15 @@
+{
+  "name": "birthday_project",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.0",
+    "@hotwired/turbo-rails": "^8.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.0"
+  }
+}
