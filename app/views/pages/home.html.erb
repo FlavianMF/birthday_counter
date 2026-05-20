@@ -11,15 +11,15 @@
     <div class="relative w-28 h-28 mx-auto mb-8">
       <!-- Glow effect -->
       <div class="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
-      
+
       <!-- Main logo container -->
-      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/50 transform hover:scale-110 transition-all duration-500 animate-float cursor-pointer active:scale-95" 
+      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/50 transform hover:scale-110 transition-all duration-500 animate-float cursor-pointer active:scale-95"
            data-action="click->celebration#rain">
         <!-- Inner shine effect -->
         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl"></div>
         <span class="text-6xl relative z-10">🎂</span>
       </div>
-      
+
       <!-- Orbiting elements -->
       <div class="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-lg animate-bounce-soft shadow-lg">
         🎉
@@ -28,31 +28,64 @@
         🎮
       </div>
     </div>
-    
+
     <!-- Title with animated gradient -->
     <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
       <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 via-pink-400 to-orange-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">
         Birthday Counter
       </span>
     </h1>
-    
+
     <!-- Subtitle -->
     <p class="text-white/70 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
       Transforme a espera pelo aniversário na própria festa
     </p>
   </div>
 
+  <!-- Main Event Card (only shown when user is logged in) -->
+  <% if logged_in? && @main_event %>
+  <div class="relative glass-card p-6 w-full max-w-md mb-8 group hover:border-primary/50 transition-all duration-500 z-10">
+    <div class="text-center mb-4">
+      <h2 class="text-2xl font-bold mb-2 text-center text-white/90">Seu Próximo Evento</h2>
+      <div class="event-card group relative glass-card p-6 hover:border-primary/50 transition-all duration-500 transform hover:-translate-y-2 animate-fade-in">
+        <div class="relative">
+          <h3 class="text-xl font-bold text-white/90 mb-1 line-clamp-1"><%= @main_event.name %></h3>
+          <p class="text-white/60 text-sm line-clamp-2 mb-4"><%= @main_event.description %></p>
+          
+          <!-- Event Date -->
+          <div class="flex items-center gap-2 text-white/60 text-sm mb-4">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <span><%= @main_event.target_date&.strftime("%d/%m/%Y") || 'Data não definida' %></span>
+          </div>
+          
+          <!-- Action Button to navigate to event -->
+          <%= link_to event_path(@main_event), class: "btn-primary w-full block text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" do %>
+            <span class="flex items-center justify-center gap-2">
+              <span>Ver Evento</span>
+              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
   <!-- Main Countdown Card with enhanced glassmorphism -->
   <div class="relative glass-card p-8 w-full max-w-md mb-8 group hover:border-primary/50 transition-all duration-500 z-10">
     <!-- Animated border gradient -->
-    <div class="absolute inset-0 bg-gradient-to-r from-violet-600/0 via-fuchsia-600/0 to-pink-600/0 group-hover:from-violet-600/10 group-hover:via-fuchsia-600/10 group-hover:to-pink-600/10 rounded-2xl transition-all duration-500"></div>
-    
+    <div class="absolute inset-0 bg-gradient-to-r from-violet-600/0 via-fuchsia-600/0 to-pink-600/0 group-hover:from-violet-600/10 group-hover:via-fuchsia-600/10 group-hover:to-pink-600/0 rounded-2xl transition-all duration-500"></div>
+
     <!-- Glow on hover -->
     <div class="absolute inset-0 bg-gradient-to-r from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/5 group-hover:to-fuchsia-600/5 rounded-2xl transition-all duration-500"></div>
-    
+
     <div class="relative">
       <h2 class="text-xl font-bold mb-6 text-center text-white/90">Próximo Aniversário</h2>
-      
+
       <!-- Countdown display with data-stimulus -->
       <div class="grid grid-cols-4 gap-3 mb-8" data-controller="countdown" data-countdown-date-value="<%= Time.new(2026, 12, 31).iso8601 %>">
         <div class="text-center group">
@@ -101,6 +134,7 @@
         <div class="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
         <div class="relative text-5xl transform group-hover:scale-125 transition-transform duration-300">🎮</div>
       </div>
+
       <h3 class="font-bold text-lg mb-2 text-white/90">Jogos Personalizados</h3>
       <p class="text-white/60 text-sm leading-relaxed">Geoguessr de memórias, Fact or Fiction e mais</p>
     </div>
