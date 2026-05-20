@@ -226,3 +226,26 @@ Adicionado `:current_user_coins` à lista de `helper_method`.
 - O saldo de moedas do usuário agora é exibido corretamente na navbar sem causar erros de NameError.
 
 ---
+
+## 9. Problema: Routing Error no Perfil do Usuário
+
+### Sintomas
+- Erro `Routing Error: uninitialized constant ProfilesController`
+- Ocorria ao acessar `/profile`
+
+### Causa Raiz
+No Rails, mesmo recursos singulares (`resource :profile`) mapeiam por padrão para controllers no plural (`ProfilesController`). O controller estava nomeado no singular como `ProfileController` e as views estavam em `app/views/profile/`.
+
+### Solução
+Padronização seguindo as convenções do Rails:
+1. Renomeado `app/controllers/profile_controller.rb` para `app/controllers/profiles_controller.rb`.
+2. Alterada a classe de `ProfileController` para `ProfilesController`.
+3. Renomeado o diretório de views de `app/views/profile/` para `app/views/profiles/`.
+
+**Branch:** `fix/profile-routing-error`  
+**Commit:** `[SHA-DRAFT]`
+
+### Resultado
+- A rota de perfil agora funciona corretamente, carregando o `ProfilesController` e renderizando as views do diretório correto.
+
+---
