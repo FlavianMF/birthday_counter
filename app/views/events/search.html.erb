@@ -1,0 +1,30 @@
+<div class="container-mobile py-8">
+  <div class="animate-fade-in mb-8 text-center">
+    <h1 class="text-3xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-2">
+      Entrar em um Evento
+    </h1>
+    <p class="text-white/70">Insira o código de acesso enviado pelo anfitrião</p>
+  </div>
+
+  <div class="glass-card p-8 animate-fade-in" style="animation-delay: 100ms">
+    <%= form_with url: search_events_path, method: :post, class: "space-y-6" do |f| %>
+      <div>
+        <%= f.label :access_code, "Código de Acesso", class: "block text-sm font-medium text-white/70 mb-2 uppercase tracking-wider" %>
+        <%= f.text_field :access_code, 
+            placeholder: "EX: AB12CD34", 
+            class: "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white text-center text-2xl font-mono focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/20 uppercase",
+            required: true,
+            maxlength: 8 %>
+      </div>
+
+      <div class="pt-2">
+        <%= f.submit "Verificar Código", class: "btn-primary w-full py-4 text-lg" %>
+      </div>
+    <% end %>
+
+    <div class="mt-8 pt-6 border-t border-white/10 text-center">
+      <p class="text-white/50 text-sm mb-4">Quer criar seu próprio evento?</p>
+      <%= link_to "Criar Novo Evento", new_event_path, class: "text-primary hover:text-primary-light font-bold transition-colors" %>
+    </div>
+  </div>
+</div>

@@ -16,6 +16,12 @@ Rails.application.routes.draw do
     member do
       get :messages
       post :messages, to: "events#create_message"
+      get :join
+      post :join, to: "events#process_join"
+    end
+    collection do
+      get :search
+      post :search, to: "events#find_by_code"
     end
   end
   

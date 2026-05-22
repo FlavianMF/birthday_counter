@@ -44,13 +44,40 @@ class EventsController < ApplicationController
     redirect_to events_path, notice: 'Evento removido com sucesso!'
   end
   
+  def search
+  end
+
+  def find_by_code
+    @event = Event.find_by(access_code: params[:access_code]&.upcase)
+    
+    if @event
+      redirect_to join_event_path(@event)
+    else
+      flash.now[:alert] = "Código de acesso inválido"
+      render :search, status: :not_found
+    end
+  end
+
+  def join
+    if @event.participants.include?(current_user)
+      redirect_to @event, notice: "Você já está participando deste evento"
+    end
+  end
+
+  def process_join
+    if @event.participants.include?(current_user)
+      redirect_to @event
+    elsif @event.event_participants.create(user: current_user, role: 'guest', has_accepted: true)
+      redirect_to @event, notice: "Bem-vindo ao evento!"
+    else
+      render :join, status: :unprocessable_entity
+    end
+  end
+  
   def messages
   end
   
   def create_message
-  end
-  
-  def join
   end
 
   private

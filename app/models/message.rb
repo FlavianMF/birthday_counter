@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   # Validations
+  validates :event_id, presence: true
   validates :message_type, inclusion: { in: %w[text image video audio] }
   validates :status, inclusion: { in: %w[visible pending_approval hidden shadowbanned] }
 

@@ -14,9 +14,9 @@ class Ranking < ApplicationRecord
 
   # Methods
   def streak_multiplier
-    return 1.0 if streak_days == 0
+    return 2.0 if streak_days >= 7
     return 1.5 if streak_days >= 3
-    2.0 if streak_days >= 7
+    1.0
   end
 
   def add_score(points)

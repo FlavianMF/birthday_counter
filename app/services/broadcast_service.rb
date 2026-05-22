@@ -9,7 +9,7 @@ class BroadcastService
       }
     }
 
-    Rails.application.config.cable.server&.broadcast(
+    ActionCable.server.broadcast(
       "events:#{event.id}",
       message
     )
@@ -27,7 +27,7 @@ class BroadcastService
       }
     }
 
-    Rails.application.config.cable.server&.broadcast(
+    ActionCable.server.broadcast(
       "events:#{event.id}",
       broadcast_data
     )
@@ -49,7 +49,7 @@ class BroadcastService
       }
     }
 
-    Rails.application.config.cable.server&.broadcast(
+    ActionCable.server.broadcast(
       "events:#{event.id}",
       message
     )
@@ -61,7 +61,7 @@ class BroadcastService
       payload: payload
     }
 
-    Rails.application.config.cable.server&.broadcast(
+    ActionCable.server.broadcast(
       "users:#{user.id}",
       message
     )

@@ -7,10 +7,10 @@ module API
 
       # POST /api/v1/events/:event_id/games/geoguessr/play
       def geoguessr_play
-        guess_lat = params[:guess][:lat]
-        guess_lng = params[:guess][:lng]
-        actual_lat = params[:actual_lat]
-        actual_lng = params[:actual_lng]
+        guess_lat = params[:guess][:lat].to_f
+        guess_lng = params[:guess][:lng].to_f
+        actual_lat = params[:actual_lat].to_f
+        actual_lng = params[:actual_lng].to_f
 
         distance_km = haversine_distance(guess_lat, guess_lng, actual_lat, actual_lng)
         score = calculate_geoguessr_score(distance_km)

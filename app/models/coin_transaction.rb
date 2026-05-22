@@ -1,6 +1,6 @@
 class CoinTransaction < ApplicationRecord
   # Validations
-  validates :amount, presence: true
+  validates :amount, :transaction_type, presence: true
   validates :transaction_type, inclusion: { in: %w[earned spent] }
 
   # Associations

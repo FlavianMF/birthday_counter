@@ -1,6 +1,6 @@
 class EventParticipant < ApplicationRecord
   # Validations
-  validates :role, inclusion: { in: %w[host sponsor guest] }
+  validates :role, inclusion: { in: %w[host sponsor guest admin] }
 
   # Associations
   belongs_to :event
