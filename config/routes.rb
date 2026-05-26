@@ -23,14 +23,15 @@ Rails.application.routes.draw do
       get :join
       post :join, to: "events#process_join"
     end
+    resources :rankings, only: [:index]
     collection do
       get :search
       post :search, to: "events#find_by_code"
     end
   end
   
-  resources :games, only: [:index, :show]
   resources :rankings, only: [:index]
+  resources :games, only: [:index, :show]
   # Singular resource for user profile (no ID needed, uses current_user)
 resource :profile, only: [:show, :edit, :update]
   
