@@ -21,6 +21,10 @@ RSpec.describe "Host Invitation Flow", type: :request do
       expect(event.sponsor_id).to eq(sponsor.id)
       expect(event.host_id).to be_nil
       expect(event.invitation_token).not_to be_nil
+
+      # Verify visibility in index
+      get events_path
+      expect(response.body).to include(event.name)
     end
   end
 

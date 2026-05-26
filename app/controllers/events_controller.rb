@@ -4,7 +4,10 @@ class EventsController < ApplicationController
   
   def index
     @events = if logged_in?
-      current_user.hosted_events.includes(:host).order(:target_date)
+      Event.where(host_id: current_user.id)
+           .or(Event.where(sponsor_id: current_user.id))
+           .includes(:host, :sponsor)
+           .order(:target_date)
     else
       Event.includes(:host).where(status: 'active').order(:target_date).limit(5)
     end
