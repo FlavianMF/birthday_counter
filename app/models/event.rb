@@ -3,10 +3,12 @@ class Event < ApplicationRecord
   validates :name, presence: true
   validates :target_date, presence: true
   validates :status, inclusion: { in: %w[active climax post_event archived] }
+  validates :invitation_token, uniqueness: true, allow_nil: true
   validate :target_date_in_future_or_present
+  validate :host_presence_unless_surprise
 
   # Associations
-  belongs_to :host, class_name: 'User', foreign_key: :host_id
+  belongs_to :host, class_name: 'User', foreign_key: :host_id, optional: true
   belongs_to :sponsor, class_name: 'User', foreign_key: :sponsor_id, optional: true
   has_many :event_participants, dependent: :destroy
   has_many :participants, through: :event_participants, source: :user
@@ -19,7 +21,33 @@ class Event < ApplicationRecord
 
   # Callbacks
   before_create :generate_access_code
+  before_create :generate_invitation_token, if: -> { is_surprise? && host_id.nil? }
   after_initialize :set_default_config
+
+  def generate_invitation_token
+    self.invitation_token = SecureRandom.urlsafe_base64(16)
+  end
+
+  def host_presence_unless_surprise
+    if !is_surprise? && host_id.blank?
+      errors.add(:host_id, "must be present if the event is not a surprise")
+    end
+  end
+
+  def claim_by!(user)
+    transaction do
+      update!(
+        host_id: user.id,
+        invitation_token: nil,
+        invitation_claimed_at: Time.current
+      )
+      # Also add as participant with host role if not already there
+      event_participants.find_or_create_by!(user: user) do |p|
+        p.role = 'host'
+        p.has_accepted = true
+      end
+    end
+  end
 
   # Scopes
   scope :active, -> { where(status: 'active') }
