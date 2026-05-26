@@ -5,6 +5,12 @@ RSpec.describe Event, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:target_date) }
     it { should validate_inclusion_of(:status).in_array(%w[active climax post_event archived]) }
+
+    it 'validates that target_date is in the future on create' do
+      event = Event.new(name: 'Past Event', target_date: 1.day.ago)
+      expect(event).not_to be_valid
+      expect(event.errors[:target_date]).to include('deve ser uma data futura')
+    end
   end
 
   describe 'associations' do

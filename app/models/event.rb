@@ -5,7 +5,7 @@ class Event < ApplicationRecord
   validates :status, inclusion: { in: %w[active climax post_event archived] }
   validates :invitation_token, uniqueness: true, allow_nil: true
   validates :recipient_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
-  validate :target_date_in_future_or_present
+  validate :target_date_must_be_in_the_future, on: :create
   validate :host_presence_unless_surprise
 
   # Associations
@@ -77,10 +77,9 @@ class Event < ApplicationRecord
     self.access_code = SecureRandom.alphanumeric(8).upcase
   end
 
-  def target_date_in_future_or_present
-    if target_date && target_date < Time.current
-      # Allow past dates but warn
-      # errors.add(:target_date, 'should be in the future')
+  def target_date_must_be_in_the_future
+    if target_date && target_date <= Time.current
+      errors.add(:target_date, 'deve ser uma data futura')
     end
   end
 
