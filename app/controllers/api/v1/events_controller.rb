@@ -1,8 +1,9 @@
 module API
   module V1
-    class EventsController < ApplicationController
+    class EventsController < API::V1::ApplicationController
       before_action :authenticate_user!, except: [:index, :show]
-      before_action :set_event, only: [:show, :update, :destroy, :join, :messages, :ranking]
+      before_action :set_event, only: [:show, :update, :destroy, :join, :messages, :create_message, :ranking]
+      before_action :check_event_freeze!, only: [:update, :join, :create_message]
 
       # GET /api/v1/events
       def index
@@ -75,7 +76,23 @@ module API
 
       # GET /api/v1/events/:id/messages
       def messages
-        messages = @event.messages.includes(:sender).order(created_at: :desc).limit(50)
+        # Base messages for the event
+        all_messages = @event.messages.includes(:sender).order(created_at: :desc)
+        
+        # Determine visibility
+        if @event.status == 'climax' || @current_user&.role == 'admin'
+          # After climax or for admin, show all visible and shadowbanned (if sender)
+          messages = all_messages.where('status = ? OR (status = ? AND sender_id = ?)', 'visible', 'shadowbanned', @current_user&.id)
+        else
+          # Before climax, only show revealed messages or user's own messages
+          # and respect shadowban logic
+          messages = all_messages.where(
+            '(is_revealed = ? AND status = ?) OR (sender_id = ? AND status IN (?))',
+            true, 'visible', @current_user&.id, ['visible', 'shadowbanned']
+          )
+        end
+        
+        messages = messages.limit(50)
         render json: messages.map { |m| message_json(m) }
       end
 
@@ -83,9 +100,19 @@ module API
       def create_message
         @message = @event.messages.new(message_params)
         @message.sender_id = @current_user.id
+        
+        # AI Content Moderation
+        if AiModerationService.offensive?(@message.content)
+          @message.status = 'pending_approval'
+        else
+          @message.status = 'visible'
+        end
+
+        # Initial lock status
+        @message.is_revealed = (@event.status == 'climax')
 
         if @message.save
-          BroadcastService.broadcast_message(@event, @message)
+          BroadcastService.broadcast_message(@event, @message) if @message.status == 'visible'
           render json: message_json(@message), status: :created
         else
           render json: { error: 'bad_request', message: @message.errors.full_messages.join(', ') }, status: :unprocessable_entity

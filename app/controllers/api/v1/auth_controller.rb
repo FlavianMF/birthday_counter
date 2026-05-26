@@ -1,6 +1,6 @@
 module API
   module V1
-    class AuthController < ApplicationController
+    class AuthController < API::V1::ApplicationController
       # POST /api/v1/auth/register
       def register
         user = User.new(user_params)

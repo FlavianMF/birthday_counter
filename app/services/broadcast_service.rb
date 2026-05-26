@@ -13,6 +13,26 @@ class BroadcastService
       "events:#{event.id}",
       message
     )
+
+    if status == 'CLIMAX'
+      broadcast_celebration(event)
+    end
+  end
+
+  def self.broadcast_celebration(event)
+    message = {
+      event_type: 'CELEBRATION_TRIGGER',
+      payload: {
+        event_id: event.id,
+        vfx_type: (event.config || {})['theme_id'] || 'default',
+        timestamp: Time.current.iso8601
+      }
+    }
+
+    ActionCable.server.broadcast(
+      "events:#{event.id}",
+      message
+    )
   end
 
   def self.broadcast_message(event, message)

@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   
   get "register", to: "registrations#new"
   post "register", to: "registrations#create"
+
+  # Invitations
+  get "invite/:token", to: "invitations#show", as: :invite
+  post "invite/:token/claim", to: "invitations#claim", as: :claim_invitation
   
   # Resources
   resources :events do
@@ -50,9 +54,13 @@ resource :profile, only: [:show, :edit, :update]
       end
 
       # Games
+      get 'events/:event_id/games/fact-or-fiction/new', to: 'games#fact_or_fiction_new'
       post 'events/:event_id/games/geoguessr/play', to: 'games#geoguessr_play'
       post 'events/:event_id/games/fact-or-fiction/play', to: 'games#fact_or_fiction_play'
       post 'events/:event_id/games/timeline-reorder/play', to: 'games#timeline_reorder_play'
+
+      # Shop
+      post 'events/:event_id/shop/buy/:item_id', to: 'shop#buy'
     end
   end
 

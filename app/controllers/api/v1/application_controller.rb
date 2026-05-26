@@ -41,6 +41,13 @@ module API
       def require_admin
         require_role(:admin)
       end
+
+      def check_event_freeze!
+        @event = Event.find(params[:event_id] || params[:id])
+        if @event.config['is_frozen']
+          render json: { error: 'forbidden', message: 'Event interactions are frozen by administrator' }, status: :forbidden
+        end
+      end
     end
   end
 end

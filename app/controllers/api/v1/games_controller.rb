@@ -1,9 +1,20 @@
 module API
   module V1
-    class GamesController < ApplicationController
+    class GamesController < API::V1::ApplicationController
       before_action :authenticate_user!
       before_action :set_event
       before_action :set_ranking
+
+      # GET /api/v1/events/:event_id/games/fact-or-fiction/new
+      def fact_or_fiction_new
+        bio = @event.host.profile_data['bio_storytelling'] || "Host loves parties!"
+        data = AiModerationService.generate_fact_or_fiction(bio)
+        
+        render json: {
+          event_id: @event.id,
+          statements: (data[:facts] + [data[:fiction]]).shuffle
+        }
+      end
 
       # POST /api/v1/events/:event_id/games/geoguessr/play
       def geoguessr_play
