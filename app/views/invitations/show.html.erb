@@ -1,0 +1,54 @@
+<div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-background via-background to-surface/30 relative overflow-hidden">
+  <!-- Animated background elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia/10 rounded-full blur-3xl animate-float-delayed"></div>
+  </div>
+
+  <div class="relative w-full max-w-md z-10 text-center">
+    <!-- Party Icon -->
+    <div class="relative w-32 h-32 mx-auto mb-8 animate-bounce-soft">
+      <div class="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+      <div class="relative w-full h-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-full flex items-center justify-center shadow-2xl">
+        <span class="text-6xl">🎁</span>
+      </div>
+    </div>
+
+    <!-- Surprise Header -->
+    <div class="space-y-4 mb-10 animate-fade-in">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+        <span class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-orange-400 bg-clip-text text-transparent">
+          Surpresa!
+        </span>
+      </h1>
+      <p class="text-white/80 text-xl font-medium">
+        Você recebeu um presente de 
+        <span class="text-primary font-bold"><%= @event.sponsor&.name || "um amigo" %></span>
+      </p>
+    </div>
+
+    <!-- Event Info Card -->
+    <div class="glass-card p-8 mb-8 transform hover:scale-[1.02] transition-all duration-300">
+      <h2 class="text-2xl font-bold text-white mb-2"><%= @event.name %></h2>
+      <p class="text-white/60 mb-6 italic"><%= @event.description %></p>
+      
+      <div class="flex items-center justify-center gap-3 text-white/90 font-bold text-lg mb-8">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        <%= l(@event.target_date.to_date, format: :long) %>
+      </div>
+
+      <!-- Action Button -->
+      <%= button_to claim_invitation_path(@event.invitation_token), 
+          method: :post,
+          class: "btn-primary w-full py-4 text-lg font-bold shadow-lg shadow-primary/50 transform active:scale-95 transition-all" do %>
+        Reivindicar meu Aniversário
+      <% end %>
+    </div>
+
+    <p class="text-white/40 text-sm">
+      Ao reivindicar, você terá acesso total ao painel, jogos e cápsulas do tempo da sua festa.
+    </p>
+  </div>
+</div>
