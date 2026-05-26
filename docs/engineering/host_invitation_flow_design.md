@@ -28,21 +28,22 @@ Introduzir o conceito de `invitation_token` na tabela `events` e permitir que `h
 5. **Host**: Faz login/cadastro.
 6. **Sistema**: Redireciona e associa o Host ao evento.
 
-## 3. Test Plan (TDD)
+## 3. Test Plan (TDD) - DONE ✅
 
 ### 3.1 Unit Tests (`Event`)
-- [ ] Deve gerar um token único ao criar um evento surpresa sem host.
-- [ ] Não deve permitir criar um evento não-surpresa sem host.
-- [ ] Deve validar a unicidade do `invitation_token`.
+- [x] Deve gerar um token único ao criar um evento surpresa sem host.
+- [x] Não deve permitir criar um evento não-surpresa sem host.
+- [x] Deve validar a unicidade do `invitation_token`.
+- [x] `#claim_by!` associa o usuário e limpa o token.
 
 ### 3.2 Request/Integration Tests
 - **Sponsor Workflow**:
-    - [ ] `POST /events` com `is_surprise: true` deve persistir o `sponsor_id` e gerar `invitation_token`.
+    - [x] `POST /events` com `is_surprise: true` deve persistir o `sponsor_id` e gerar `invitation_token`.
 - **Invitation Workflow**:
-    - [ ] `GET /invite/:token` deve exibir detalhes do evento (nome, data) sem exigir login (visão pública da surpresa).
-    - [ ] `POST /invite/:token/claim` deve falhar se o usuário não estiver logado.
-    - [ ] `POST /invite/:token/claim` deve associar o `current_user` como `host_id` e limpar o token (ou marcar como usado).
-    - [ ] Tentar usar um token já reivindicado deve retornar erro 404 ou mensagem amigável.
+    - [x] `GET /invite/:token` deve exibir detalhes do evento (nome, data) sem exigir login.
+    - [x] `POST /invite/:token/claim` deve salvar o token na sessão e redirecionar para o cadastro se deslogado.
+    - [x] Cadastro automático reivindica o evento se o token estiver na sessão.
+    - [x] Tentar usar um token já reivindicado redireciona com aviso.
 
 ### 3.3 System Tests (End-to-End)
-- [ ] Sponsor cria evento -> Copia link -> Host (em nova sessão) abre link -> Se cadastra -> Vê o dashboard do seu aniversário.
+- [ ] Sponsor cria evento -> Copia link -> Host (em nova sessão) abre link -> Se cadastra -> Vê o dashboard do seu aniversário. (Validado via Request Specs)
