@@ -4,6 +4,7 @@ Bem-vindo à base de conhecimento consolidada do projeto **Birthday Counter Expe
 
 ## 🎯 Definição do Produto
 *   **[[PRD]]**: Product Requirements Document. O Single Source of Truth para funcionalidades e requisitos técnicos.
+*   **[[MONETIZATION_PLAN]]**: Estratégia de negócio, tiers de preço e economia de tokens.
 *   **[[landing_page_design]]**: Estratégia de venda, conversão e entrada de novos usuários.
 *   **[[systems_engineering_foundation]]**: Princípios de engenharia, arquitetura e feedback loops.
 
