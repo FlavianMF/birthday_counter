@@ -2,9 +2,9 @@
   <!-- Page Header -->
   <div class="animate-fade-in mb-6">
     <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-2">
-      Novo Evento
+      Editar Evento
     </h1>
-    <p class="text-white/60 text-sm">Crie um novo evento para celebrar</p>
+    <p class="text-white/60 text-sm">Atualize os detalhes da celebração</p>
   </div>
   
   <!-- Form Card -->
@@ -86,33 +86,9 @@
 
       <!-- Submit Buttons -->
       <div class="flex gap-4 pt-4">
-        <%= form.submit "Criar Evento", class: "btn-primary flex-1 cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" %>
-        <%= link_to "Cancelar", events_path, class: "btn-secondary flex-1 text-center" %>
+        <%= form.submit "Atualizar Evento", class: "btn-primary flex-1 cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" %>
+        <%= link_to "Voltar", event_path(@event), class: "btn-secondary flex-1 text-center" %>
       </div>
     <% end %>
-  </div>
-  
-  <!-- Tips Section -->
-  <div class="glass-card p-6 mt-6 animate-fade-in" style="animation-delay: 200ms">
-    <h3 class="font-bold text-white/90 mb-3 flex items-center gap-2">
-      <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-      Dicas
-    </h3>
-    <ul class="space-y-2 text-sm text-white/60">
-      <li class="flex items-start gap-2">
-        <span class="text-primary mt-0.5">•</span>
-        <span>Escolha um nome criativo para seu evento</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="text-primary mt-0.5">•</span>
-        <span>Convide amigos para ganhar mais coins</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="text-primary mt-0.5">•</span>
-        <span>Ative a opção surpresa para revelações épicas</span>
-      </li>
-    </ul>
   </div>
 </div>

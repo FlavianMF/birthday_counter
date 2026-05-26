@@ -4,6 +4,7 @@ class Event < ApplicationRecord
   validates :target_date, presence: true
   validates :status, inclusion: { in: %w[active climax post_event archived] }
   validates :invitation_token, uniqueness: true, allow_nil: true
+  validates :recipient_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
   validate :target_date_in_future_or_present
   validate :host_presence_unless_surprise
 

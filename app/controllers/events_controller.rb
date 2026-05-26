@@ -19,7 +19,13 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    @event.host_id = current_user.id
+    
+    if @event.is_surprise?
+      @event.sponsor_id = current_user.id
+      # host_id will be nil initially for surprise events
+    else
+      @event.host_id = current_user.id
+    end
     
     if @event.save
       redirect_to @event, notice: 'Evento criado com sucesso!'
@@ -87,6 +93,6 @@ class EventsController < ApplicationController
   end
   
   def event_params
-    params.require(:event).permit(:name, :description, :target_date, :is_surprise)
+    params.require(:event).permit(:name, :description, :target_date, :is_surprise, :recipient_email)
   end
 end
