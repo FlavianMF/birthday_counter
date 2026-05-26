@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_19_164616) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_26_224921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -71,7 +71,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_19_164616) do
   end
 
   create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "host_id", null: false
+    t.uuid "host_id"
     t.uuid "sponsor_id"
     t.string "name", null: false
     t.string "description"
@@ -82,9 +82,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_19_164616) do
     t.boolean "is_surprise", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invitation_token"
+    t.datetime "invitation_claimed_at"
     t.index ["access_code"], name: "index_events_on_access_code"
     t.index ["host_id", "status"], name: "index_events_on_host_id_and_status", where: "((status)::text = 'active'::text)"
     t.index ["host_id"], name: "index_events_on_host_id"
+    t.index ["invitation_token"], name: "index_events_on_invitation_token"
     t.index ["sponsor_id"], name: "index_events_on_sponsor_id"
     t.index ["status"], name: "index_events_on_status"
     t.index ["target_date"], name: "index_events_on_target_date"

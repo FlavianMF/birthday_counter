@@ -8,9 +8,57 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'associations' do
-    it { should belong_to(:host).class_name('User') }
+    it { should belong_to(:host).class_name('User').optional }
+    it { should belong_to(:sponsor).class_name('User').optional }
     it { should have_many(:messages).dependent(:destroy) }
     it { should have_many(:rankings).dependent(:destroy) }
+  end
+
+  describe 'invitation logic' do
+    let(:sponsor) { create(:user, role: 'sponsor') }
+
+    it 'generates an invitation token for surprise events without a host' do
+      event = Event.create!(
+        name: "Surprise", 
+        target_date: 1.day.from_now, 
+        is_surprise: true, 
+        sponsor: sponsor,
+        host: nil
+      )
+      expect(event.invitation_token).not_to be_nil
+    end
+
+    it 'does not generate a token if host is already present' do
+      host = create(:user, role: 'host')
+      event = Event.create!(
+        name: "Not Surprise", 
+        target_date: 1.day.from_now, 
+        is_surprise: true, 
+        host: host
+      )
+      expect(event.invitation_token).to be_nil
+    end
+
+    describe '#claim_by!' do
+      let(:event) { create(:event, :surprise, host: nil, invitation_token: 'test_token') }
+      let(:new_host) { create(:user) }
+
+      it 'associates the user as host and clears the token' do
+        event.claim_by!(new_host)
+        
+        expect(event.host).to eq(new_host)
+        expect(event.invitation_token).to be_nil
+        expect(event.invitation_claimed_at).not_to be_nil
+      end
+
+      it 'adds the user as a participant with host role' do
+        event.claim_by!(new_host)
+        
+        participant = event.event_participants.find_by(user: new_host)
+        expect(participant).not_to be_nil
+        expect(participant.role).to eq('host')
+      end
+    end
   end
 
   describe 'state transitions' do

@@ -7,5 +7,10 @@ FactoryBot.define do
     status { "active" }
     is_surprise { false }
     config { {} }
+
+    trait :surprise do
+      is_surprise { true }
+      host { nil }
+    end
   end
 end
