@@ -22,6 +22,8 @@ class Ranking < ApplicationRecord
   def add_score(points)
     multiplier = streak_multiplier
     self.total_score += (points * multiplier).to_i
+    # Award coins based on points (1 coin for every 10 points)
+    self.coins += (points / 10.0).to_i
     save!
   end
 

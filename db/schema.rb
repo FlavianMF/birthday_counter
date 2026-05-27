@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_26_232102) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_26_235345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_26_232102) do
     t.string "invitation_token"
     t.datetime "invitation_claimed_at"
     t.string "recipient_email"
+    t.jsonb "game_config"
     t.index ["access_code"], name: "index_events_on_access_code"
     t.index ["host_id", "status"], name: "index_events_on_host_id_and_status", where: "((status)::text = 'active'::text)"
     t.index ["host_id"], name: "index_events_on_host_id"

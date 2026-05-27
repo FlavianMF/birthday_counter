@@ -96,6 +96,10 @@ class EventsController < ApplicationController
   end
   
   def event_params
-    params.require(:event).permit(:name, :description, :target_date, :is_surprise, :recipient_email)
+    params.require(:event).permit(:name, :description, :target_date, :is_surprise, :recipient_email).tap do |whitelisted|
+      if params[:event][:game_config].present?
+        whitelisted[:game_config] = params[:event][:game_config].permit!.to_h
+      end
+    end
   end
 end

@@ -1,119 +1,68 @@
 <div class="container-mobile py-8 relative z-10">
   <!-- Page Header -->
   <div class="animate-fade-in mb-8">
+    <% if @event %>
+      <%= link_to event_path(@event), class: "text-white/40 hover:text-white transition-colors flex items-center gap-2 mb-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span>Voltar ao Evento</span>
+      <% end %>
+    <% end %>
     <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent mb-2">
-      Jogos
+      Jogos <%= " - #{@event.name}" if @event %>
     </h1>
     <p class="text-white/60 text-sm">Ganhe coins e conquiste o ranking</p>
   </div>
   
   <!-- Games Grid with staggered animation -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Geoguessr Card -->
-    <div class="game-card group animate-fade-in" style="animation-delay: 100ms">
-      <div class="relative mb-4">
-        <!-- Animated background glow -->
-        <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-        
-        <!-- Icon container -->
-        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
-          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">🌍</div>
+    <% if @events&.any? %>
+      <% @events.each do |event| %>
+        <!-- Fact or Fiction Card for Event: <%= event.name %> -->
+        <div class="game-card group animate-fade-in">
+          <div class="relative mb-4">
+            <div class="absolute inset-0 bg-gradient-to-r from-fuchsia-600/20 to-pink-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+            
+            <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-fuchsia-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+              <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">❓</div>
+            </div>
+          </div>
+          
+          <h3 class="font-bold text-lg mb-2 text-white/90">Fact or Fiction</h3>
+          <p class="text-white/60 text-xs mb-1 font-bold uppercase tracking-wider"><%= event.name %></p>
+          <p class="text-white/60 text-sm mb-4">Descubra a verdade sobre o aniversariante com IA</p>
+          
+          <%= link_to fact_or_fiction_event_games_path(event), class: "btn-primary w-full flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" do %>
+            <span>Jogar Agora</span>
+            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          <% end %>
         </div>
+      <% end %>
+    <% else %>
+      <div class="col-span-full glass-card p-12 text-center">
+        <div class="text-6xl mb-4">🎈</div>
+        <h2 class="text-xl font-bold text-white mb-2">Nenhum evento ativo</h2>
+        <p class="text-white/60 mb-6">Crie ou participe de um evento para liberar os jogos!</p>
+        <%= link_to new_event_path, class: "btn-primary inline-flex items-center gap-2" do %>
+          <span>Criar Evento</span>
+        <% end %>
       </div>
-      
-      <h3 class="font-bold text-lg mb-2 text-white/90">Geoguessr</h3>
-      <p class="text-white/60 text-sm mb-4">Adivinhe a localização das fotos e ganhe pontos por precisão</p>
-      
-      <!-- Stats -->
-      <div class="flex justify-center gap-4 mb-4 text-xs">
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-secondary rounded-full"></span>
-          <span>Até 5000 pts</span>
-        </div>
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-primary rounded-full"></span>
-          <span>coins</span>
-        </div>
-      </div>
-      
-      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-        <span class="flex items-center justify-center gap-2">
-          <span>Jogar Agora</span>
-          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </span>
-      </button>
-    </div>
+    <% end %>
     
-    <!-- Fact or Fiction Card -->
-    <div class="game-card group animate-fade-in" style="animation-delay: 200ms">
+    <!-- Geoguessr Card (Coming Soon) -->
+    <div class="game-card group animate-fade-in opacity-50">
       <div class="relative mb-4">
-        <div class="absolute inset-0 bg-gradient-to-r from-fuchsia-600/20 to-pink-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-        
-        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-fuchsia-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
-          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">❓</div>
+        <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 rounded-full blur-xl"></div>
+        <div class="relative w-20 h-20 mx-auto bg-white/5 rounded-2xl flex items-center justify-center">
+          <div class="text-4xl grayscale">🌍</div>
         </div>
       </div>
-      
-      <h3 class="font-bold text-lg mb-2 text-white/90">Fact or Fiction</h3>
-      <p class="text-white/60 text-sm mb-4">Descubra a verdade sobre o aniversariante com IA</p>
-      
-      <!-- Stats -->
-      <div class="flex justify-center gap-4 mb-4 text-xs">
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-secondary rounded-full"></span>
-          <span>500 pts</span>
-        </div>
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-primary rounded-full"></span>
-          <span>IA</span>
-        </div>
-      </div>
-      
-      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-        <span class="flex items-center justify-center gap-2">
-          <span>Jogar Agora</span>
-          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </span>
-      </button>
-    </div>
-    
-    <!-- Timeline Card -->
-    <div class="game-card group animate-fade-in" style="animation-delay: 300ms">
-      <div class="relative mb-4">
-        <div class="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-orange-600/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-        
-        <div class="relative w-20 h-20 mx-auto bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
-          <div class="text-4xl transform group-hover:scale-125 transition-transform duration-300">📅</div>
-        </div>
-      </div>
-      
-      <h3 class="font-bold text-lg mb-2 text-white/90">Timeline</h3>
-      <p class="text-white/60 text-sm mb-4">Ordene as fotos cronologicamente e prove sua memória</p>
-      
-      <!-- Stats -->
-      <div class="flex justify-center gap-4 mb-4 text-xs">
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-secondary rounded-full"></span>
-          <span>1000 pts</span>
-        </div>
-        <div class="flex items-center gap-1 text-white/60">
-          <span class="w-2 h-2 bg-primary rounded-full"></span>
-          <span>Tudo ou nada</span>
-        </div>
-      </div>
-      
-      <button class="btn-primary w-full transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-        <span class="flex items-center justify-center gap-2">
-          <span>Jogar Agora</span>
-          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </span>
-      </button>
+      <h3 class="font-bold text-lg mb-2 text-white/40">Geoguessr</h3>
+      <p class="text-white/30 text-sm mb-4">Em breve: Adivinhe a localização das fotos</p>
+      <button class="btn-secondary w-full cursor-not-allowed" disabled>Bloqueado</button>
     </div>
   </div>
   

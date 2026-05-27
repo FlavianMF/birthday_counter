@@ -24,6 +24,11 @@ Rails.application.routes.draw do
       post :join, to: "events#process_join"
     end
     resources :rankings, only: [:index]
+    resources :games, only: [:index] do
+      collection do
+        get :fact_or_fiction
+      end
+    end
     collection do
       get :search
       post :search, to: "events#find_by_code"

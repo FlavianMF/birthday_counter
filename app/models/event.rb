@@ -23,7 +23,7 @@ class Event < ApplicationRecord
   # Callbacks
   before_create :generate_access_code
   before_create :generate_invitation_token, if: -> { is_surprise? && host_id.nil? }
-  after_initialize :set_default_config
+  after_initialize :set_default_configs
 
   def generate_invitation_token
     self.invitation_token = SecureRandom.urlsafe_base64(16)
@@ -63,13 +63,23 @@ class Event < ApplicationRecord
     super || {}
   end
 
-  def set_default_config
+  def game_config
+    super || {}
+  end
+
+  def set_default_configs
     self.config ||= {
       'theme_id' => nil,
       'vfx_enabled' => true,
       'ai_complexity' => 'medium',
       'spotify_playlist_id' => nil,
       'milestones' => []
+    }
+    self.game_config ||= {
+      'fact_or_fiction' => {
+        'facts' => [],
+        'fiction' => nil
+      }
     }
   end
 

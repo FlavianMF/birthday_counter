@@ -84,6 +84,40 @@
         </div>
       </div>
 
+      <!-- Game Content: Fact or Fiction -->
+      <div class="space-y-4 pt-4 border-t border-white/10">
+        <h3 class="text-lg font-bold text-white/90 flex items-center gap-2">
+          <span class="text-2xl">❓</span> Fact or Fiction
+        </h3>
+        <p class="text-xs text-white/50">Crie as perguntas para o jogo. Uma deve ser mentira!</p>
+        
+        <div class="space-y-3">
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-green-400 uppercase">Fato #1 (Verdade)</label>
+            <%= form.text_field "event[game_config][fact_or_fiction][facts][]", 
+                name: "event[game_config][fact_or_fiction][facts][]",
+                value: @event.game_config.dig('fact_or_fiction', 'facts', 0),
+                class: "input-glass", placeholder: "Ex: Eu já morei no Japão por 2 anos" %>
+          </div>
+          
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-green-400 uppercase">Fato #2 (Verdade)</label>
+            <%= form.text_field "event[game_config][fact_or_fiction][facts][]", 
+                name: "event[game_config][fact_or_fiction][facts][]",
+                value: @event.game_config.dig('fact_or_fiction', 'facts', 1),
+                class: "input-glass", placeholder: "Ex: Tenho uma coleção de 500 vinis" %>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-red-400 uppercase">A Mentira (Ficção)</label>
+            <%= form.text_field "event[game_config][fact_or_fiction][fiction]", 
+                name: "event[game_config][fact_or_fiction][fiction]",
+                value: @event.game_config.dig('fact_or_fiction', 'fiction'),
+                class: "input-glass border-red-500/30 focus:border-red-500", placeholder: "Ex: Eu falo 5 idiomas fluentemente" %>
+          </div>
+        </div>
+      </div>
+
       <!-- Submit Buttons -->
       <div class="flex gap-4 pt-4">
         <%= form.submit "Atualizar Evento", class: "btn-primary flex-1 cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" %>
