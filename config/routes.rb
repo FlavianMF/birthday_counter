@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :games, only: [:index] do
       collection do
         get :fact_or_fiction
+        post :play
       end
     end
     collection do

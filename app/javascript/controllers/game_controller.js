@@ -9,7 +9,6 @@ export default class extends Controller {
 
   connect() {
     console.log("Game Controller Connected!")
-    window.alert("Game Connected!")
     this.hasPlayed = false
   }
 
@@ -43,6 +42,10 @@ export default class extends Controller {
       this.resultTitleTarget.className = "text-3xl font-bold text-green-400 mb-2"
       this.resultMessageTarget.textContent = "Você detectou a mentira da IA!"
       this.scoreTarget.textContent = "500"
+      
+      // Trigger celebration if available
+      const celebration = this.application.getControllerForElementAndIdentifier(document.body, 'celebration')
+      if (celebration) celebration.rain()
     } else {
       this.resultIconTarget.textContent = "❌"
       this.resultTitleTarget.textContent = "Errou!"
@@ -50,9 +53,9 @@ export default class extends Controller {
       this.resultMessageTarget.textContent = "A mentira era: " + this.fictionValue
     }
 
-    // Call API to persist score
+    // Call internal play action to persist score
     try {
-      const response = await fetch(`/api/v1/events/${this.eventIdValue}/games/fact-or-fiction/play`, {
+      const response = await fetch(`/events/${this.eventIdValue}/games/play`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
