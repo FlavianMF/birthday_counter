@@ -43,20 +43,20 @@ class GamesController < ApplicationController
     # Store session to prevent multiple plays per game if desired
     # For now, let's just make sure it's working
     
+    # Ensure ranking is saved correctly
     if is_correct
-      score = base_score
-      @ranking.add_score(score)
+      result = @ranking.add_score(base_score)
+      score = result[:points]
+      coins_earned = result[:coins]
       
       # Ensure coins are added to the transaction as well
-      coins_earned = (score / 10.0).to_i
-      
       CoinTransaction.create!(
         user: current_user,
         event: @event,
         amount: coins_earned,
         transaction_type: 'earned',
         source: 'fact_or_fiction',
-        description: "Fact or Fiction: correct answer"
+        description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
       )
 
       # Record game session for analytics/history
@@ -70,6 +70,7 @@ class GamesController < ApplicationController
       )
     else
       score = 0
+      coins_earned = 0
       GameSession.create!(
         event: @event,
         user: current_user,
@@ -81,18 +82,23 @@ class GamesController < ApplicationController
     end
 
     BroadcastService.broadcast_ranking_update(@event)
+    
+    # Broadcast stats update to current user specifically for navbar/profile
+    # Note: add_score already calls this, but we call it here too to cover the is_correct = false case
+    BroadcastService.broadcast_user_stats(current_user)
 
     render json: {
       score: score,
-      coins_earned: is_correct ? (score / 10).to_i : 0,
+      coins_earned: coins_earned,
       is_correct: is_correct,
-      new_total_score: @ranking.total_score
+      new_total_score: @ranking.total_score,
+      rank_position: @ranking.rank_position
     }
   end
 
   private
 
   def set_event
-    @event = Event.find(params[:event_id])
+    @event = Event.find_by(id: params[:event_id])
   end
 end

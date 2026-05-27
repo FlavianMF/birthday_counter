@@ -24,8 +24,12 @@ module API
         actual_lng = params[:actual_lng].to_f
 
         distance_km = haversine_distance(guess_lat, guess_lng, actual_lat, actual_lng)
-        score = calculate_geoguessr_score(distance_km)
-        coins = (score / 10.0).to_i
+        base_score = calculate_geoguessr_score(distance_km)
+
+        # Update ranking and get final score/coins
+        result = @ranking.add_score(base_score)
+        score = result[:points]
+        coins = result[:coins]
 
         # Create game session
         session = GameSession.create!(
@@ -36,24 +40,24 @@ module API
           game_data: {
             guess: { lat: guess_lat, lng: guess_lng },
             actual: { lat: actual_lat, lng: actual_lng },
-            distance_km: distance_km
+            distance_km: distance_km,
+            multiplier: result[:multiplier]
           },
           completed_at: Time.current
         )
 
-        # Update ranking
-        @ranking.add_score(score)
         CoinTransaction.create!(
           user: @current_user,
           event: @event,
           amount: coins,
           transaction_type: 'earned',
           source: 'geoguessr',
-          description: "Geoguessr: #{score} points"
+          description: "Geoguessr: #{score} points (Multiplier: #{result[:multiplier]}x)"
         )
 
         # Broadcast ranking update
         BroadcastService.broadcast_ranking_update(@event)
+        BroadcastService.broadcast_user_stats(@current_user)
 
         render json: {
           score: score,
@@ -68,29 +72,33 @@ module API
       def fact_or_fiction_play
         # This would typically involve AI to generate facts
         # For now, simplified version
-        is_correct = params[:is_correct]
+        is_correct = params[:is_correct] == true || params[:is_correct] == "true"
         base_score = 500
 
         if is_correct
-          score = base_score
-          @ranking.add_score(score)
+          result = @ranking.add_score(base_score)
+          score = result[:points]
+          coins = result[:coins]
+          
           CoinTransaction.create!(
             user: @current_user,
             event: @event,
-            amount: (score / 10.0).to_i,
+            amount: coins,
             transaction_type: 'earned',
             source: 'fact_or_fiction',
-            description: "Fact or Fiction: correct answer"
+            description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
           )
         else
           score = 0
+          coins = 0
         end
 
         BroadcastService.broadcast_ranking_update(@event)
+        BroadcastService.broadcast_user_stats(@current_user)
 
         render json: {
           score: score,
-          coins_earned: is_correct ? (score / 10).to_i : 0,
+          coins_earned: coins,
           is_correct: is_correct,
           new_total_score: @ranking.total_score,
           rank_position: @ranking.rank_position
@@ -100,29 +108,33 @@ module API
       # POST /api/v1/events/:event_id/games/timeline-reorder/play
       def timeline_reorder_play
         # Check if ordering is correct
-        is_correct = params[:is_correct]
+        is_correct = params[:is_correct] == true || params[:is_correct] == "true"
         base_score = 1000
 
         if is_correct
-          score = base_score
-          @ranking.add_score(score)
+          result = @ranking.add_score(base_score)
+          score = result[:points]
+          coins = result[:coins]
+
           CoinTransaction.create!(
             user: @current_user,
             event: @event,
-            amount: (score / 10.0).to_i,
+            amount: coins,
             transaction_type: 'earned',
             source: 'timeline_reorder',
-            description: "Timeline Reorder: perfect match"
+            description: "Timeline Reorder: perfect match (Multiplier: #{result[:multiplier]}x)"
           )
         else
           score = 0
+          coins = 0
         end
 
         BroadcastService.broadcast_ranking_update(@event)
+        BroadcastService.broadcast_user_stats(@current_user)
 
         render json: {
           score: score,
-          coins_earned: is_correct ? (score / 10).to_i : 0,
+          coins_earned: coins,
           is_correct: is_correct,
           new_total_score: @ranking.total_score,
           rank_position: @ranking.rank_position

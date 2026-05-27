@@ -75,6 +75,22 @@ class BroadcastService
     )
   end
 
+  def self.broadcast_user_stats(user)
+    message = {
+      event_type: 'STATS_UPDATE',
+      payload: {
+        total_score: user.total_score,
+        coins: user.rankings.sum(:coins),
+        level: user.level
+      }
+    }
+
+    ActionCable.server.broadcast(
+      "users:#{user.id}",
+      message
+    )
+  end
+
   def self.broadcast_to_user(user, event_type, payload)
     message = {
       event_type: event_type,

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["score", "progressBar", "instructions", "statements", "feedback", "resultIcon", "resultTitle", "resultMessage"]
+  static targets = ["score", "progressBar", "instructions", "statements", "feedback", "resultIcon", "resultTitle", "resultMessage", "earnedPoints", "earnedCoins"]
   static values = {
     fiction: String,
     eventId: String
@@ -35,13 +35,12 @@ export default class extends Controller {
       }
     })
 
-    // Prepare Feedback
+    // Prepare Feedback (Preliminary)
     if (isCorrect) {
       this.resultIconTarget.textContent = "🎉"
       this.resultTitleTarget.textContent = "Acertou!"
       this.resultTitleTarget.className = "text-3xl font-bold text-green-400 mb-2"
       this.resultMessageTarget.textContent = "Você detectou a mentira da IA!"
-      this.scoreTarget.textContent = "500"
       
       // Trigger celebration if available
       const celebration = this.application.getControllerForElementAndIdentifier(document.body, 'celebration')
@@ -51,6 +50,8 @@ export default class extends Controller {
       this.resultTitleTarget.textContent = "Errou!"
       this.resultTitleTarget.className = "text-3xl font-bold text-red-400 mb-2"
       this.resultMessageTarget.textContent = "A mentira era: " + this.fictionValue
+      this.earnedPointsTarget.textContent = "+0"
+      this.earnedCoinsTarget.textContent = "+0 💰"
     }
 
     // Call internal play action to persist score
@@ -67,6 +68,13 @@ export default class extends Controller {
       if (response.ok) {
         const data = await response.json()
         console.log("Score persisted:", data)
+        
+        // Update with real values from server (including multipliers)
+        if (data.is_correct) {
+          this.scoreTarget.textContent = data.score
+          this.earnedPointsTarget.textContent = `+${data.score}`
+          this.earnedCoinsTarget.textContent = `+${data.coins_earned} 💰`
+        }
       }
     } catch (error) {
       console.error("Error persisting score:", error)

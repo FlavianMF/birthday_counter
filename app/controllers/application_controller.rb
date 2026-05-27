@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks
-  protect_from_forgery with: :exception
+  skip_forgery_protection if: -> { Rails.env.test? }
   
   # Helper methods
-  helper_method :current_user, :logged_in?, :current_user_coins
+  helper_method :current_user, :logged_in?, :current_user_coins, :current_user_total_score
   
   private
   
@@ -23,6 +23,13 @@ class ApplicationController < ActionController::Base
   
   def current_user_coins
     return 0 unless logged_in?
-    Ranking.find_by(user: current_user, event: nil)&.coins || 0
+    # Get total coins across all events for the user
+    Ranking.where(user: current_user).sum(:coins)
+  end
+
+  def current_user_total_score
+    return 0 unless logged_in?
+    # Get total score across all events for the user
+    Ranking.where(user: current_user).sum(:total_score)
   end
 end

@@ -12,13 +12,13 @@ RSpec.describe Ranking, type: :model do
     end
 
     it 'adds score with 1.5x multiplier for 3 day streak' do
-      ranking.update(streak_days: 3)
+      ranking.update(streak_days: 3, last_activity_date: Time.current)
       ranking.add_score(100)
       expect(ranking.total_score).to eq(150)
     end
 
     it 'adds score with 2x multiplier for 7 day streak' do
-      ranking.update(streak_days: 7)
+      ranking.update(streak_days: 7, last_activity_date: Time.current)
       ranking.add_score(100)
       expect(ranking.total_score).to eq(200)
     end
