@@ -59,6 +59,7 @@ export default class extends Controller {
     // Call internal play action to persist score
     try {
       console.log("Persistence Payload:", { is_correct: isCorrect })
+      // FIX: Use the web route instead of the API route to maintain session authentication
       const response = await fetch(`/events/${this.eventIdValue}/games/play`, {
         method: 'POST',
         headers: {
@@ -68,6 +69,7 @@ export default class extends Controller {
         },
         body: JSON.stringify({ is_correct: isCorrect })
       })
+
       
       if (response.ok) {
         const data = await response.json()
