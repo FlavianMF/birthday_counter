@@ -1,0 +1,9 @@
+<h1>Olá <%= @user.name %>,</h1>
+
+<p>Faltam apenas <strong><%= @days_left %></strong> dias para o grande dia!</p>
+
+<p>O aniversário de <strong><%= @event.name %></strong> está chegando. Continue participando e acumulando pontos!</p>
+
+<p><%= link_to 'Acessar Evento', event_url(@event) %></p>
+
+<p>Até lá!</p>

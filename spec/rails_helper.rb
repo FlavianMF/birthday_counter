@@ -13,6 +13,14 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+  
+  config.before(:suite) do
+    ActiveJob::Base.queue_adapter = :test
+    Rails.application.routes.default_url_options[:host] = 'localhost'
+    ActionMailer::Base.default_url_options[:host] = 'localhost'
+  end
+
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]

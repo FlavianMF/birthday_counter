@@ -59,6 +59,20 @@ Core da experiência de surpresa.
 
 ---
 
+## 5. Notificações e Emails
+Engajamento recorrente e aquisição de usuários.
+
+### 5.1 Countdown Diário
+- **Lógica**: Notificação diária para participantes de eventos ativos.
+- **Job**: `DailyCountdownJob` (execução agendada).
+- **Conteúdo**: Dias restantes e link direto para o evento.
+
+### 5.2 Convites e Surpresas
+- **Convite de Host (Surpresa)**: Disparado quando um evento surpresa é criado com `recipient_email`. Contém o `invitation_token` para reivindicação.
+- **Convite de Convidado**: Disparado manualmente para convidar novos usuários a participar de um evento existente.
+
+---
+
 ## 💡 Diretrizes para Agentes
 
 ### Para o Agente de Desenvolvimento (Coder)

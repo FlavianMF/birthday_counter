@@ -23,7 +23,12 @@ class Event < ApplicationRecord
   # Callbacks
   before_create :generate_access_code
   before_create :generate_invitation_token, if: -> { is_surprise? && host_id.nil? }
+  after_create :send_invitation_email, if: -> { is_surprise? && recipient_email.present? }
   after_initialize :set_default_configs
+
+  def send_invitation_email
+    NotificationService.send_event_invitation(self)
+  end
 
   def generate_invitation_token
     self.invitation_token = SecureRandom.urlsafe_base64(16)
