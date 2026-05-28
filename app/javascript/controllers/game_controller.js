@@ -29,9 +29,9 @@ export default class extends Controller {
     this.statementsTarget.querySelectorAll('button').forEach(btn => {
       const stmt = btn.dataset.statement
       if (stmt === this.fictionValue) {
-        btn.classList.add('border-green-500/50', 'bg-green-500/10')
+        btn.classList.add('border-green-500/50', 'bg-green-500/10', 'ring-2', 'ring-green-500/50')
       } else if (stmt === selectedStatement && !isCorrect) {
-        btn.classList.add('border-red-500/50', 'bg-red-500/10')
+        btn.classList.add('border-red-500/50', 'bg-red-500/10', 'ring-2', 'ring-red-500/50')
       }
     })
 
@@ -41,6 +41,8 @@ export default class extends Controller {
       this.resultTitleTarget.textContent = "Acertou!"
       this.resultTitleTarget.className = "text-3xl font-bold text-green-400 mb-2"
       this.resultMessageTarget.textContent = "Você detectou a mentira da IA!"
+      this.earnedPointsTarget.textContent = "Calculando..."
+      this.earnedCoinsTarget.textContent = "..."
       
       // Trigger celebration if available
       const celebration = this.application.getControllerForElementAndIdentifier(document.body, 'celebration')
@@ -56,10 +58,12 @@ export default class extends Controller {
 
     // Call internal play action to persist score
     try {
+      console.log("Persistence Payload:", { is_correct: isCorrect })
       const response = await fetch(`/events/${this.eventIdValue}/games/play`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
         },
         body: JSON.stringify({ is_correct: isCorrect })
@@ -71,9 +75,12 @@ export default class extends Controller {
         
         // Update with real values from server (including multipliers)
         if (data.is_correct) {
-          this.scoreTarget.textContent = data.score
+          this.scoreTarget.textContent = data.new_total_score
           this.earnedPointsTarget.textContent = `+${data.score}`
           this.earnedCoinsTarget.textContent = `+${data.coins_earned} 💰`
+        } else {
+          // Even if wrong, new_total_score might have changed due to streak maintenance (though points 0)
+          this.scoreTarget.textContent = data.new_total_score
         }
       }
     } catch (error) {

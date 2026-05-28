@@ -38,58 +38,44 @@ class GamesController < ApplicationController
     @ranking = Ranking.find_or_create_by!(event: @event, user: current_user)
     
     is_correct = params[:is_correct] == true || params[:is_correct] == "true"
-    base_score = 500
+    base_score = is_correct ? 500 : 0
     
-    # Store session to prevent multiple plays per game if desired
-    # For now, let's just make sure it's working
-    
-    # Ensure ranking is saved correctly
-    if is_correct
+    # Use transaction to ensure data consistency
+    ActiveRecord::Base.transaction do
       result = @ranking.add_score(base_score)
-      score = result[:points]
-      coins_earned = result[:coins]
+      @score = result[:points]
+      @coins_earned = result[:coins]
       
-      # Ensure coins are added to the transaction as well
-      CoinTransaction.create!(
-        user: current_user,
-        event: @event,
-        amount: coins_earned,
-        transaction_type: 'earned',
-        source: 'fact_or_fiction',
-        description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
-      )
+      if is_correct && @coins_earned > 0
+        # Ensure coins are added to the transaction as well
+        CoinTransaction.create!(
+          user: current_user,
+          event: @event,
+          amount: @coins_earned,
+          transaction_type: 'earned',
+          source: 'fact_or_fiction',
+          description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
+        )
+      end
 
       # Record game session for analytics/history
       GameSession.create!(
         event: @event,
         user: current_user,
         game_type: 'fact_or_fiction',
-        score: score,
-        game_data: { is_correct: true },
-        completed_at: Time.current
-      )
-    else
-      score = 0
-      coins_earned = 0
-      GameSession.create!(
-        event: @event,
-        user: current_user,
-        game_type: 'fact_or_fiction',
-        score: 0,
-        game_data: { is_correct: false },
+        score: @score,
+        game_data: { is_correct: is_correct, multiplier: result[:multiplier] },
         completed_at: Time.current
       )
     end
 
     BroadcastService.broadcast_ranking_update(@event)
-    
-    # Broadcast stats update to current user specifically for navbar/profile
-    # Note: add_score already calls this, but we call it here too to cover the is_correct = false case
-    BroadcastService.broadcast_user_stats(current_user)
+    # add_score already broadcasts user stats, but we can be explicit if needed
+    # BroadcastService.broadcast_user_stats(current_user)
 
     render json: {
-      score: score,
-      coins_earned: coins_earned,
+      score: @score,
+      coins_earned: @coins_earned,
       is_correct: is_correct,
       new_total_score: @ranking.total_score,
       rank_position: @ranking.rank_position

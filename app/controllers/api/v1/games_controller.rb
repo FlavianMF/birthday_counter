@@ -70,35 +70,42 @@ module API
 
       # POST /api/v1/events/:event_id/games/fact-or-fiction/play
       def fact_or_fiction_play
-        # This would typically involve AI to generate facts
-        # For now, simplified version
         is_correct = params[:is_correct] == true || params[:is_correct] == "true"
-        base_score = 500
+        base_score = is_correct ? 500 : 0
 
-        if is_correct
+        ActiveRecord::Base.transaction do
           result = @ranking.add_score(base_score)
-          score = result[:points]
-          coins = result[:coins]
+          @score = result[:points]
+          @coins = result[:coins]
           
-          CoinTransaction.create!(
-            user: @current_user,
+          if is_correct && @coins > 0
+            CoinTransaction.create!(
+              user: @current_user,
+              event: @event,
+              amount: @coins,
+              transaction_type: 'earned',
+              source: 'fact_or_fiction',
+              description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
+            )
+          end
+
+          GameSession.create!(
             event: @event,
-            amount: coins,
-            transaction_type: 'earned',
-            source: 'fact_or_fiction',
-            description: "Fact or Fiction: correct answer (Multiplier: #{result[:multiplier]}x)"
+            user: @current_user,
+            game_type: 'fact_or_fiction',
+            score: @score,
+            game_data: { is_correct: is_correct, multiplier: result[:multiplier] },
+            completed_at: Time.current
           )
-        else
-          score = 0
-          coins = 0
         end
 
         BroadcastService.broadcast_ranking_update(@event)
-        BroadcastService.broadcast_user_stats(@current_user)
+        # add_score already broadcasts user stats
+        # BroadcastService.broadcast_user_stats(@current_user)
 
         render json: {
-          score: score,
-          coins_earned: coins,
+          score: @score,
+          coins_earned: @coins,
           is_correct: is_correct,
           new_total_score: @ranking.total_score,
           rank_position: @ranking.rank_position
@@ -107,34 +114,42 @@ module API
 
       # POST /api/v1/events/:event_id/games/timeline-reorder/play
       def timeline_reorder_play
-        # Check if ordering is correct
         is_correct = params[:is_correct] == true || params[:is_correct] == "true"
-        base_score = 1000
+        base_score = is_correct ? 1000 : 0
 
-        if is_correct
+        ActiveRecord::Base.transaction do
           result = @ranking.add_score(base_score)
-          score = result[:points]
-          coins = result[:coins]
+          @score = result[:points]
+          @coins = result[:coins]
 
-          CoinTransaction.create!(
-            user: @current_user,
+          if is_correct && @coins > 0
+            CoinTransaction.create!(
+              user: @current_user,
+              event: @event,
+              amount: @coins,
+              transaction_type: 'earned',
+              source: 'timeline_reorder',
+              description: "Timeline Reorder: perfect match (Multiplier: #{result[:multiplier]}x)"
+            )
+          end
+
+          GameSession.create!(
             event: @event,
-            amount: coins,
-            transaction_type: 'earned',
-            source: 'timeline_reorder',
-            description: "Timeline Reorder: perfect match (Multiplier: #{result[:multiplier]}x)"
+            user: @current_user,
+            game_type: 'timeline_reorder',
+            score: @score,
+            game_data: { is_correct: is_correct, multiplier: result[:multiplier] },
+            completed_at: Time.current
           )
-        else
-          score = 0
-          coins = 0
         end
 
         BroadcastService.broadcast_ranking_update(@event)
-        BroadcastService.broadcast_user_stats(@current_user)
+        # add_score already broadcasts user stats
+        # BroadcastService.broadcast_user_stats(@current_user)
 
         render json: {
-          score: score,
-          coins_earned: coins,
+          score: @score,
+          coins_earned: @coins,
           is_correct: is_correct,
           new_total_score: @ranking.total_score,
           rank_position: @ranking.rank_position

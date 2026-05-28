@@ -71,11 +71,13 @@ class Ranking < ApplicationRecord
              .count + 1
     else
       # Global rank calculation (summing all rankings per user)
-      # This is expensive, so we might want to cache it or use a simpler approach
-      # For now, a query that mirrors the RankingsController logic
-      subquery = Ranking.group(:user_id).select('SUM(total_score) as total')
-      Ranking.from(subquery, :user_totals)
-             .where('total > ?', total_score)
+      # We compare the current user's global total with others' global totals
+      user_global_score = user.total_score
+      
+      # Using a CTE or subquery to get all users' total scores
+      user_totals = Ranking.group(:user_id).select('SUM(total_score) as total')
+      Ranking.from(user_totals, :totals)
+             .where('total > ?', user_global_score)
              .count + 1
     end
   end
