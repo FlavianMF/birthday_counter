@@ -43,8 +43,8 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'www.example.com' }
+  config.action_controller.default_url_options = { host: 'www.example.com' }
   config.active_job.queue_adapter = :test
 
   # Print deprecation notices to the stderr.
@@ -68,4 +68,5 @@ Rails.application.configure do
   # Allow all hosts in tests
   config.hosts.clear
   config.hosts << /.*/
+  config.hosts << "www.example.com"
 end

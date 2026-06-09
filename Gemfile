@@ -69,6 +69,7 @@ group :development, :test do
  gem "debug", platforms: [:mri, :mswin, :mingw, :x64_mingw]
  gem "factory_bot_rails"
  gem "rspec-rails"
+ gem "letter_opener"
 end
 
 group :test do

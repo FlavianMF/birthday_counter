@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_26_235345) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_09_143302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -28,6 +28,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_26_235345) do
     t.index ["active"], name: "index_active_effects_on_active"
     t.index ["event_id"], name: "index_active_effects_on_event_id"
     t.index ["user_id"], name: "index_active_effects_on_user_id"
+  end
+
+  create_table "app_settings", force: :cascade do |t|
+    t.string "key"
+    t.jsonb "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_app_settings_on_key"
   end
 
   create_table "audit_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -174,6 +182,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_26_235345) do
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_shop_items_on_active"
     t.index ["item_type"], name: "index_shop_items_on_item_type"
+  end
+
+  create_table "system_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "category", null: false
+    t.jsonb "settings", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_system_settings_on_category", unique: true
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

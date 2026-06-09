@@ -82,6 +82,16 @@ class EventsController < ApplicationController
       render :join, status: :unprocessable_entity
     end
   end
+
+  def invite
+    email = params[:email]
+    if email.present? && email.match?(URI::MailTo::EMAIL_REGEXP)
+      NotificationService.invite_guest(email, @event, current_user)
+      redirect_to @event, notice: "Convite enviado para #{email}!"
+    else
+      redirect_to @event, alert: "Email inválido"
+    end
+  end
   
   def messages
   end

@@ -1,0 +1,76 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-white mb-2">Configurações de Email</h1>
+      <p class="text-slate-400">Configure os parâmetros de SMTP e endereço de envio do sistema.</p>
+    </div>
+
+    <%= form_with url: email_settings_path, method: :patch, scope: :settings, class: "space-y-6" do |f| %>
+      
+      <!-- General Settings -->
+      <div class="bg-white/5 rounded-xl p-6 border border-white/5">
+        <h2 class="text-xl font-semibold text-white mb-4">Geral</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :from_email, "Email de Envio (From)", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.email_field :from_email, value: @setting.settings['from_email'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all", placeholder: "no-reply@exemplo.com" %>
+          </div>
+
+          <div class="flex items-center pt-8">
+            <%= f.check_box :smtp_enabled, { checked: @setting.settings['smtp_enabled'] == 'true' || @setting.settings['smtp_enabled'] == true, class: "w-4 h-4 text-indigo-600 bg-slate-950 border-white/10 rounded focus:ring-indigo-500" }, "true", "false" %>
+            <%= f.label :smtp_enabled, "Habilitar SMTP", class: "ml-2 block text-sm font-medium text-slate-300" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMTP Server Settings -->
+      <div class="bg-white/5 rounded-xl p-6 border border-white/5">
+        <h2 class="text-xl font-semibold text-white mb-4">Servidor SMTP</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :address, "Endereço (Host)", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.text_field :address, value: @setting.settings['address'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all", placeholder: "smtp.exemplo.com" %>
+          </div>
+
+          <div>
+            <%= f.label :port, "Porta", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.number_field :port, value: @setting.settings['port'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all", placeholder: "587" %>
+          </div>
+
+          <div>
+            <%= f.label :domain, "Domínio", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.text_field :domain, value: @setting.settings['domain'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all", placeholder: "exemplo.com" %>
+          </div>
+
+          <div>
+            <%= f.label :authentication, "Autenticação", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.select :authentication, options_for_select([['Plain', 'plain'], ['Login', 'login'], ['Cram MD5', 'cram_md5']], @setting.settings['authentication']), {}, class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMTP Authentication -->
+      <div class="bg-white/5 rounded-xl p-6 border border-white/5">
+        <h2 class="text-xl font-semibold text-white mb-4">Credenciais</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :user_name, "Usuário", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.text_field :user_name, value: @setting.settings['user_name'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" %>
+          </div>
+
+          <div>
+            <%= f.label :password, "Senha", class: "block text-sm font-medium text-slate-300 mb-2" %>
+            <%= f.password_field :password, value: @setting.settings['password'], class: "w-full bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-4">
+        <%= f.submit "Salvar Configurações", class: "bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-indigo-500/20 transition-all cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

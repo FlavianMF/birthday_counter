@@ -2,7 +2,7 @@ module API
   module V1
     class EventsController < API::V1::ApplicationController
       before_action :authenticate_user!, except: [:index, :show]
-      before_action :set_event, only: [:show, :update, :destroy, :join, :messages, :create_message, :ranking]
+      before_action :set_event, only: [:show, :update, :destroy, :join, :messages, :create_message, :ranking, :invite]
       before_action :check_event_freeze!, only: [:update, :join, :create_message]
 
       # GET /api/v1/events
@@ -128,6 +128,17 @@ module API
           top_10: rankings.map { |r| ranking_json(r) },
           current_user: current_user_ranking ? ranking_json(current_user_ranking) : nil
         }
+      end
+
+      # POST /api/v1/events/:id/invite
+      def invite
+        email = params[:email]
+        if email.present? && email.match?(URI::MailTo::EMAIL_REGEXP)
+          NotificationService.invite_guest(email, @event, @current_user)
+          render json: { message: "Invitation sent to #{email}" }
+        else
+          render json: { error: 'bad_request', message: 'Invalid email' }, status: :unprocessable_entity
+        end
       end
 
       private

@@ -26,13 +26,14 @@ RUN npm install
 COPY . .
 
 # Set environment variables for precompilation ONLY
-# We use a subshell for precompilation to avoid leaking these to the final image
+RUN mkdir -p app/assets/builds
+
+# In Rails 7 with tailwindcss-rails and jsbundling-rails, 
+# assets:precompile will automatically trigger tailwindcss:build and javascript:build
 RUN RAILS_ENV=production \
+    RAILS_ASSETS_PRECOMPILE=1 \
     SECRET_KEY_BASE_DUMMY=1 \
-    DATABASE_URL=postgresql://postgres@localhost/dummy_db \
-    bundle exec rails tailwindcss:build && \
-    ./node_modules/.bin/esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets && \
-    cp app/assets/builds/tailwind.css app/assets/builds/application.css && \
+    DATABASE_URL=postgresql://dummy-host/dummy_db \
     bundle exec rails assets:precompile
 
 # For development, we ensure the builds folder is accessible

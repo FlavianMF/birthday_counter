@@ -17,8 +17,8 @@ RSpec.configure do |config|
   
   config.before(:suite) do
     ActiveJob::Base.queue_adapter = :test
-    Rails.application.routes.default_url_options[:host] = 'localhost'
-    ActionMailer::Base.default_url_options[:host] = 'localhost'
+    Rails.application.routes.default_url_options[:host] = 'www.example.com'
+    ActionMailer::Base.default_url_options[:host] = 'www.example.com'
   end
 
   config.fixture_paths = [

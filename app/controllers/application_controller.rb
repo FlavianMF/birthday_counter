@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_action :set_mailer_settings
+
   # Prevent CSRF attacks
   skip_forgery_protection if: -> { Rails.env.test? }
   
@@ -20,6 +22,15 @@ class ApplicationController < ActionController::Base
       redirect_to login_path, alert: "Você precisa estar logado para acessar esta página"
     end
   end
+
+  def require_admin
+    require_login
+    return if performed?
+    
+    unless current_user.role == 'admin'
+      redirect_to root_path, alert: "Você não tem permissão para acessar esta página"
+    end
+  end
   
   def current_user_coins
     return 0 unless logged_in?
@@ -31,5 +42,15 @@ class ApplicationController < ActionController::Base
     return 0 unless logged_in?
     # Get total score across all events for the user
     Ranking.where(user: current_user).sum(:total_score)
+  end
+
+  private
+
+  def set_mailer_settings
+    config = AppSetting.email_config
+    ActionMailer::Base.smtp_settings = {
+      address: config['smtp_address'] || 'mailpit',
+      port: config['smtp_port'] || 1025
+    }
   end
 end

@@ -91,6 +91,15 @@ services:
     networks:
       - birthday_network
 
+  # Mailpit for email testing
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    networks:
+      - birthday_network
+
 volumes:
   postgres_data:
   redis_data:

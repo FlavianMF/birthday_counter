@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get "invite/:token", to: "invitations#show", as: :invite
   post "invite/:token/claim", to: "invitations#claim", as: :claim_invitation
   
+  # System Settings
+  get "settings/email", to: "system_settings#email", as: :email_settings
+  patch "settings/email", to: "system_settings#update_email"
+  
   # Resources
   resources :events do
     member do
@@ -22,6 +26,7 @@ Rails.application.routes.draw do
       post :messages, to: "events#create_message"
       get :join
       post :join, to: "events#process_join"
+      post :invite
     end
     resources :rankings, only: [:index]
     resources :games, only: [:index] do
@@ -41,6 +46,12 @@ Rails.application.routes.draw do
   # Singular resource for user profile (no ID needed, uses current_user)
 resource :profile, only: [:show, :edit, :update]
   
+  # Admin Settings
+  namespace :admin do
+    get 'settings/email', to: 'settings#email', as: :email_settings
+    post 'settings/email', to: 'settings#update_email', as: :update_email_settings
+  end
+
   # API Routes (for external calls or mobile apps)
   namespace :api do
     namespace :v1 do
@@ -57,6 +68,7 @@ resource :profile, only: [:show, :edit, :update]
           get 'messages', to: 'events#messages'
           post 'messages', to: 'events#create_message'
           get 'ranking'
+          post 'invite'
         end
       end
 
