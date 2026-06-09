@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_action :set_mailer_settings
-
   # Prevent CSRF attacks
   skip_forgery_protection if: -> { Rails.env.test? }
   
@@ -42,15 +40,5 @@ class ApplicationController < ActionController::Base
     return 0 unless logged_in?
     # Get total score across all events for the user
     Ranking.where(user: current_user).sum(:total_score)
-  end
-
-  private
-
-  def set_mailer_settings
-    config = AppSetting.email_config
-    ActionMailer::Base.smtp_settings = {
-      address: config['smtp_address'] || 'mailpit',
-      port: config['smtp_port'] || 1025
-    }
   end
 end

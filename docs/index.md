@@ -11,6 +11,7 @@ Bem-vindo à base de conhecimento consolidada do projeto **Birthday Counter Expe
 ## 👥 Atores e Fluxos
 *   **[[stakeholders]]**: Identificação de atores, papéis e matriz de interação sistêmica.
 *   **[[user_journeys]]**: Mapeamento das jornadas do Aniversariante e dos Amigos, incluindo o fluxo de surpresa.
+*   **[[email_testing_guide]]**: Guia de configuração e teste do motor de emails (Mailpit vs Real).
 
 ## 🛠️ Modelagem Técnica
 *   **[[db_schema]]**: Modelagem física do banco de dados PostgreSQL e estratégia de cache Redis.

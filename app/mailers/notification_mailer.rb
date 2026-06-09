@@ -1,5 +1,4 @@
 class NotificationMailer < ApplicationMailer
-  default from: -> { AppSetting.email_config['from_email'] || "birthday@example.com" }
   default_url_options[:host] = 'localhost' if Rails.env.test?
 
   def countdown_email(user, event)

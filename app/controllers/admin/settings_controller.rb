@@ -11,6 +11,6 @@ class Admin::SettingsController < ApplicationController
   private
 
   def email_params
-    params.require(:config).permit(:smtp_address, :smtp_port, :from_email)
+    params.require(:config).permit(:smtp_address, :smtp_port, :from_email, :smtp_domain, :smtp_user_name, :smtp_password, :smtp_authentication, :smtp_enable_starttls_auto)
   end
 end
