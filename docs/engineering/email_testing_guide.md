@@ -18,6 +18,16 @@ Para testar o envio real para sua caixa de entrada pessoal:
 2. Configure o servidor SMTP do seu provedor.
 3. **Importante**: Mude o endereço SMTP de `mailpit` para o endereço do seu provedor (ex: `smtp.gmail.com`).
 
+#### 🔑 Configuração de Senha (Gmail/Outlook)
+Se você estiver usando uma conta pessoal, **não use sua senha normal de login**. Provedores modernos bloqueiam logins de aplicativos por segurança.
+1. Vá nas configurações de **Segurança** da sua conta Google ou Microsoft.
+2. Ative a **Autenticação em Duas Etapas** (se não estiver ativa).
+3. Procure por **Senhas de App** (App Passwords).
+4. Gere uma nova senha para "E-mail" e selecione "Outro (nome personalizado: Birthday Counter)".
+5. O provedor gerará uma senha de 16 dígitos. **Copie e cole esta senha** no campo "Senha SMTP" do painel de administração.
+6. No campo **Autenticação**, selecione `Plain`.
+7. Certifique-se de que o **Domínio** está preenchido (ex: `gmail.com`).
+
 ---
 
 ## 2. Procedimento de Teste de Convite
